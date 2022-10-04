@@ -37,7 +37,7 @@ class Concurso{
 					return 0;
 				}
 
-			$stmt-> close();
+			// $stmt-> close();
 
 			$stmt = null;
 	}
@@ -56,8 +56,7 @@ class Concurso{
         }else{
             return 0;
         }
-        $stmt-> close();
+        // $stmt-> close();
         $stmt = null;
 	}
 }
- ?>

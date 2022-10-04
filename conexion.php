@@ -1,4 +1,5 @@
 <?php 
+
 class Conexion{
 	static public function conectar(){	
 		$link = new PDO("mysql:host=localhost;dbname=scrapping_sicop;charset=utf8mb4",
@@ -10,4 +11,3 @@ class Conexion{
 		return $link;
 	}
 }
-?>
