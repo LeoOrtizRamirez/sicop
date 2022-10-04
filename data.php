@@ -45,11 +45,29 @@ function saveData($url)
 
     $data = array();
     $crawler->filter('.eptable tr:not(:first-child)')->each(function ($node) use (&$data) {
+
         $link = $node->filter('.epa:nth-child(1)')->attr('href');
+        if ($node->filter('.epa:nth-child(1)')->count()) {
+            echo "<br>";
+            $link = $node->filter('.epa:nth-child(1)')->attr('href');
+        } else {
+            'Campo vacio';
+        }
+
         $proc_num = $node->filter('td.eptdl b')->text();
+
         $pub_date = $node->filter('td.eptdc:nth-child(3)')->text();
+
         $open_date = $node->filter('td.eptdc:nth-child(4)')->text();
+
         $status = $node->filter('td.eptdc:nth-child(5)')->text();
+        if ($node->filter('td.eptdc:nth-child(5)')->count()) {
+            echo "<br>";
+            $status = $node->filter('td.eptdc:nth-child(5)')->text();
+        } else {
+            'Campo vacio';
+        }
+
         $cont_entity = $node->filter('.eptdl')->outerHTML();
 
         $pub_date = fromStringToDate($pub_date);
