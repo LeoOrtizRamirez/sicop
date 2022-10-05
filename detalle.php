@@ -1,30 +1,20 @@
 <?php
+$concurso_enlace = $_GET['concurso_enlace'];
+$concurso_enlace = ($concurso_enlace . '&cartelSeq=00');
 
-$link = $_GET['link'];
-$linkDetalle = ($link . '&cartelSeq=00');
-// echo $linkDetalle;
+include 'vendor/autoload.php';
 
-$opts = [
-    "http" => [
-        "method" => "GET",
-        "header" => "Referer: https://www.sicop.go.cr",
-        // "payload" => "regDtTo: 21/09/2022"
-    ]
-];
+use Goutte\Client;
+use Symfony\Component\HttpClient\HttpClient;
 
-// DOCS: https://www.php.net/manual/en/function.stream-context-create.php
-$context = stream_context_create($opts);
-// Open the file using the HTTP headers set above
-// DOCS: https://www.php.net/manual/en/function.file-get-contents.php
-$content = file_get_contents($linkDetalle, false, $context);
-echo $content;
+$url = $concurso_enlace;
 
-// require 'vendor/autoload.php';
+$client = new Client(HttpClient::create(array(
+    'headers' => array(
+        // 'Host' => 'www.sicop.go.cr',
+        'Referer' => 'https://www.sicop.go.cr',
+    ),
+)));
 
-// use Goutte\Client;
-
-// $client = new Client();
-
-// $crawler = $client->request("GET", $content);
-
-// var_dump($crawler);
+$crawler = $client->request('GET', $url);
+var_dump($crawler);

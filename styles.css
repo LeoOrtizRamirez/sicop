@@ -1,0 +1,33 @@
+.body {
+    /* font-size: 20px; */
+    margin: 20px;
+}
+
+.volver {
+    margin: 10px 0px;
+    font-size: 20px;
+}
+
+.busqueda {
+    margin: 20px 0px;
+    width: 600px;
+}
+table tr th {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.sorting {
+    background-color: #d4d4d4;
+}
+
+.asc:after {
+    content: " ↑";
+}
+
+.desc:after {
+    content: " ↓";
+}

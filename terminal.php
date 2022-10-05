@@ -1,37 +1,35 @@
 <?php
 include 'vendor/autoload.php';
+// include "conect.php";
 require_once('concurso.php');
 
 use Goutte\Client;
 use Symfony\Component\HttpClient\HttpClient;
 
+// $sql = "DELETE FROM `concursos` ";
+// if (mysqli_query($mysqli, $sql)) {
+//     echo "Actualizando informacion";
+// } else {
+//     echo "Error eliminando";
+// }
+
+// $sql = "ALTER TABLE `concursos` AUTO_INCREMENT = 1";
+// if (mysqli_query($mysqli, $sql)) {
+//     echo "Actualizando informacion";
+// } else {
+//     echo "Error eliminando";
+// }
+
 echo "FECHA DE PUBLICACIÓN\n";
-echo "Desde:\n";
+echo "Desde:  (Ingrese su fecha en formato dd/mm/aaaa)\n";
 fscanf(STDIN, "%s", $desde_publicacion);
-echo "Hasta: \n";
+echo "Hasta: (Ingrese su fecha en formato dd/mm/aaaa) \n";
 fscanf(STDIN, "%s", $hasta_publicacion);
-// echo "FECHA DE APERTURA\n";
-// echo "Desde: \n";
-// fscanf(STDIN, "%s", $desde_apertura);
-// echo "Hasta: \n";
-// fscanf(STDIN, "%s", $hasta_apertura);
 
-if ($desde_publicacion == "") {
-    $desde_publicacion = "04/06/2022";
-}
-if ($hasta_publicacion == "") {
-    $hasta_publicacion = date("m/d/Y");
-}
+$desde_apertura = '08/04/2022';
+$hasta_apertura = '04/12/2022';
 
-// if ($desde_apertura == "") {
-//     $desde_apertura = "04/06/2022";
-// }
-// if ($hasta_apertura == "") {
-//     $hasta_apertura = "12/02/2022";
-// }
-
-$url = 'https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ601.jsp?cartelTestYn=Y&cartelNm=&proceType=&cartelInstCd=&instNm=&regDtFrom=' . dateFormat($desde_publicacion) . '&regDtTo=' . dateFormat($hasta_publicacion) . '&instCartelNo=&cartelNo=&prodNm=&prodUnitUserYn=&prodUnit=&cateId=&prodCate=&biddocRcvYn=Y';
-
+$url = 'https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ601.jsp?regDtFrom=' . $desde_publicacion . '&regDtTo=' . $hasta_publicacion . '&openbidDtFrom=' . $desde_apertura . '&openbidDtTo=' . $hasta_apertura . '';
 saveData($url);
 
 //Paginador
@@ -45,9 +43,8 @@ $client = new Client(HttpClient::create(array(
 $crawler = $client->request('GET', $url);
 
 $pages = $crawler->filter('#total > span:nth-child(3)')->text();
-for ($i = 2; $i < $pages; $i++) {
-    saveData('https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ601.jsp?cateId=&proceType=&biddocRcvYn=Y&regDtTo=' . dateFormat($hasta_publicacion) . '&regDtFrom=' . dateFormat($desde_publicacion) . '&instNm=&prodUnitUserYn=&instCartelNo=&cartelInstCd=&cartelTestYn=Y&cartelNo=&cartelNm=&prodCate=&prodUnit=&page_no=' . $i);
-    //saveData('https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ601.jsp?cateId=&proceType=&biddocRcvYn=Y&regDtTo=26%2F09%2F2022&regDtFrom=30%2F03%2F2022&instNm=&prodUnitUserYn=&openbidDtTo=25%2F11%2F2022&prodNm=&openbidDtFrom=30%2F03%2F2022&instCartelNo=&cartelInstCd=&cartelTestYn=Y&cartelNo=&cartelNm=&prodCate=&prodUnit=&page_no='.$i);
+for ($i = 1; $i < $pages; $i++) {
+    saveData('https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ601.jsp?regDtFrom=' . $desde_publicacion . '&regDtTo=' . $hasta_publicacion . '&instNm=&prodUnitUserYn=&openbidDtFrom=' . $desde_apertura . '&prodNm=&openbidDtTo=' . $hasta_apertura . '&page_no=' . $i);
 }
 
 function saveData($url)
@@ -68,7 +65,9 @@ function saveData($url)
         $pub_date = $node->filter('td.eptdc:nth-child(3)')->text();
         $open_date = $node->filter('td.eptdc:nth-child(4)')->text();
         $status = $node->filter('td.eptdc:nth-child(5)')->text();
+        $status = ucwords($status);
         $cont_entity = $node->filter('.eptdl')->outerHTML();
+        $cont_entity = ucwords($cont_entity);
 
         $pub_date = fromStringToDate($pub_date);
         $open_date = fromStringToDate($open_date);
@@ -110,11 +109,4 @@ function fromStringToDate($string_date)
     $string_date = str_replace("/", "-", $string_date);
     $datetime = new DateTime($string_date);
     return $datetime->format('Y-m-d H:i:s');
-}
-
-function dateFormat($date)
-{
-    $orgDate = $date;
-    $newDate = date("d/m/Y", strtotime($orgDate));
-    return urlencode($newDate);
 }

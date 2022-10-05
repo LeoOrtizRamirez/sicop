@@ -11,41 +11,15 @@
 
 <body>
     <div class="container mt-4">
-        <form action="data.php" method="GET">
-            <div class="row">
-                <div class="col-12">
-                    <h4>Rango de Publicación</h4>
-                </div>
-                <div class="col-6">
-                    <input class="form-control" type="date" name="desde_publicacion" id="desde_publicacion" />
-                </div>
-                <div class="col-6">
-                    <input class="form-control" type="date" name="hasta_publicacion" id="hasta_publicacion" />
-                </div>
-            </div>
-            <!-- <div class="row mt-4">
-                <div class="col-12">
-                    <h4>Rango de Apertura</h4>
-                </div>
-                <div class="col-6">
-                    <input class="form-control" type="date" name="desde_apertura" id="desde_apertura" />
-                </div>
-                <div class="col-6">
-                    <input class="form-control" type="date" name="hasta_apertura" id="hasta_apertura" />
-                </div>
-            </div> -->
-            <input class="btn btn-primary" type="submit" value="Consultar">
-        </form>
         <div class="col-6">
+            <br>
             <a href="mostrar.php">Ver registros guardados</a>
+            <br>
+            <a href="borrarTodo.php">Borrar todos los registros guardados</a>
+            <!-- <br>
+            <a href="borrarIndex.php">Reiniciar index</a> -->
         </div>
     </div>
 </body>
-<script>
-    document.getElementById('desde_publicacion').valueAsDate = new Date();
-    // document.getElementById('desde_apertura').valueAsDate = new Date("04/06/2022");
-    document.getElementById('hasta_publicacion').valueAsDate = new Date();
-    // document.getElementById('hasta_apertura').valueAsDate = new Date("12/02/2022");
-</script>
 
 </html>
