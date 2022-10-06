@@ -36,7 +36,7 @@ function filterRecord($query)
                 </div>
             </div>
             <form action="" method="POST">
-                <input class="busqueda" type="search" name="valueToSearh" placeholder="Filtre aqui por Cod proceso, ubicacion o palabra clave del detalle...">
+                <input class="busqueda" type="search" name="valueToSearh" placeholder="Filtre aqui por Codigo de proceso, estado o entidad contratante...">
                 <button type="submit" class="btn btn-primary" name="search">Buscar</button>
             </form>
         </div>

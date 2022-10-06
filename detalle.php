@@ -39,13 +39,13 @@ $excepcion_contratacion_directa = $crawler->filter('table:nth-child(6) > tr:nth-
 $tipo_modalidad = $crawler->filter('table:nth-child(6) > tr:nth-child(13) > td')->text();
 $tipo_recepcion_oferta = $crawler->filter('table:nth-child(6) > tr:nth-child(14) > td:nth-child(2) > b')->text();
 
-$lugar_apertura = $crawler->filter('table:nth-child(6) > tr:nth-child(14) > td:nth-child(4) > a')->text();
-// $lugar_apertura = '';
-// if ($lugar_apertura = $crawler->filter('table:nth-child(6) > tr:nth-child(14) > td:nth-child(4) > a')->count()) {
-// 	$lugar_apertura = $crawler->filter('table:nth-child(6) > tr:nth-child(14) > td:nth-child(4) > a')->text();
-// } else {
-// 	'';
-// }
+// $lugar_apertura = $crawler->filter('table:nth-child(6) > tr:nth-child(14) > td:nth-child(4) > a')->text();
+$lugar_apertura = '';
+if ($lugar_apertura = $crawler->filter('table:nth-child(6) > tr:nth-child(14) > td:nth-child(4) > a')->count()) {
+	$lugar_apertura = $crawler->filter('table:nth-child(6) > tr:nth-child(14) > td:nth-child(4) > a')->text();
+} else {
+	'';
+}
 $inicio_recepcion_ofertas = $crawler->filter('table:nth-child(6) > tr:nth-child(15) > td:nth-child(2) > b')->text();
 
 // $cierre_recepcion_ofertas = $crawler->filter('table:nth-child(6) > tr:nth-child(15) > td:nth-child(4) > b')->text();
