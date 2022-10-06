@@ -26,8 +26,8 @@ fscanf(STDIN, "%s", $desde_publicacion);
 echo "Hasta: (Ingrese su fecha en formato dd/mm/aaaa) \n";
 fscanf(STDIN, "%s", $hasta_publicacion);
 
-$desde_apertura = '08/04/2022';
-$hasta_apertura = '04/12/2022';
+$desde_apertura = '09/04/2022';
+$hasta_apertura = '05/12/2022';
 
 $url = 'https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ601.jsp?regDtFrom=' . $desde_publicacion . '&regDtTo=' . $hasta_publicacion . '&openbidDtFrom=' . $desde_apertura . '&openbidDtTo=' . $hasta_apertura . '';
 saveData($url);
