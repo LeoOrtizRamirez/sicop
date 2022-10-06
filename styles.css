@@ -12,7 +12,7 @@
     margin: 20px 0px;
     width: 600px;
 }
-table tr th {
+.table tr th {
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;

@@ -20,6 +20,7 @@ function filterRecord($query)
 
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -28,6 +29,7 @@ function filterRecord($query)
         <div class="header">
             <div class="row">
                 <div class="col-sm-3 col-md-2 sidebar">
+                    <p class="volver"> Listado de concursos</p>
                     <ul class="nav nav-pills nav-sidebar">
                         <li class="volver"><a href="index.php" data-toggle="sidebar">Volver a menu de consulta</a></li>
                     </ul>
@@ -43,7 +45,7 @@ function filterRecord($query)
     echo "<table class='table table-striped '>
     <thead class='thead-dark'>
     <tr>
-    <th># Fila</th>
+    <th>#</th>
     <th>Numero de procedimiento</th>
     <th>Fecha Publicacion</th>
     <th>Fecha Apertura</th>
@@ -66,6 +68,7 @@ function filterRecord($query)
     echo "</table>";
     ?>
     </div>
+    <script src="javascript.js"></script>
 </body>
 
 </html>
