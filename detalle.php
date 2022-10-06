@@ -1,14 +1,12 @@
 <?php
-$concurso_enlace = $_GET['concurso_enlace'];
-$concurso_enlace = ($concurso_enlace . '&cartelSeq=00');
-
 include 'vendor/autoload.php';
 
 use Goutte\Client;
 use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerEscaping;
 use Symfony\Component\HttpClient\HttpClient;
 
-$url = $concurso_enlace;
+$concurso_enlace = $_GET['concurso_enlace'];
+$concurso_enlace = ($concurso_enlace . '&cartelSeq=00');
 
 $client = new Client(HttpClient::create(array(
     'headers' => array(
@@ -17,7 +15,7 @@ $client = new Client(HttpClient::create(array(
     ),
 )));
 
-$crawler = $client->request('GET', $url);
+$crawler = $client->request('GET', $concurso_enlace);
 $funcionarios_relacionados_concurso = $crawler->filter('table:nth-child(6) > tr:nth-child(2) > td:nth-child(2) > span > a')->text();
 $estado_concurso = $crawler->filter('table:nth-child(6) > tr:nth-child(2) > td:nth-child(4) > font')->text();
 $fecha_hora_publicacion = $crawler->filter('table:nth-child(6) > tr:nth-child(3) > td:nth-child(2)')->text();
@@ -48,12 +46,9 @@ $plazo_adjudicacion = $crawler->filter('body > div.sl_body > div > div.cl_contex
 $presupuesto_total_estimado = $crawler->filter('body > div.sl_body > div > div.cl_context > table:nth-child(6) > tr:nth-child(17) > td:nth-child(2)')->text();
 $presupuesto_total_estimado_usd = $crawler->filter('body > div.sl_body > div > div.cl_context > table:nth-child(6) > tr:nth-child(17) > td:nth-child(4)')->text();
 
-
-
 echo '<head>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>';
-
 
 echo '<div class="container mt-4">';
 echo '<h4>Detalles del concurso</h4>';
