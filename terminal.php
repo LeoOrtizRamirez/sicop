@@ -6,20 +6,6 @@ require_once('concurso.php');
 use Goutte\Client;
 use Symfony\Component\HttpClient\HttpClient;
 
-// $sql = "DELETE FROM `concursos` ";
-// if (mysqli_query($mysqli, $sql)) {
-//     echo "Actualizando informacion";
-// } else {
-//     echo "Error eliminando";
-// }
-
-// $sql = "ALTER TABLE `concursos` AUTO_INCREMENT = 1";
-// if (mysqli_query($mysqli, $sql)) {
-//     echo "Actualizando informacion";
-// } else {
-//     echo "Error eliminando";
-// }
-
 echo "FECHA DE PUBLICACIÓN\n";
 echo "Desde:  (Ingrese su fecha en formato dd/mm/aaaa)\n";
 fscanf(STDIN, "%s", $desde_publicacion);
@@ -43,7 +29,7 @@ $client = new Client(HttpClient::create(array(
 $crawler = $client->request('GET', $url);
 
 $pages = $crawler->filter('#total > span:nth-child(3)')->text();
-for ($i = 1; $i < $pages; $i++) {
+for ($i = 2; $i <= $pages; $i++) {
     saveData('https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ601.jsp?regDtFrom=' . $desde_publicacion . '&regDtTo=' . $hasta_publicacion . '&instNm=&prodUnitUserYn=&openbidDtFrom=' . $desde_apertura . '&prodNm=&openbidDtTo=' . $hasta_apertura . '&page_no=' . $i);
 }
 

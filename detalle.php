@@ -9,10 +9,10 @@ $concurso_enlace = $_GET['concurso_enlace'];
 $concurso_enlace = ($concurso_enlace . '&cartelSeq=00');
 
 $client = new Client(HttpClient::create(array(
-    'headers' => array(
-        // 'Host' => 'www.sicop.go.cr',
-        'Referer' => 'https://www.sicop.go.cr',
-    ),
+	'headers' => array(
+		// 'Host' => 'www.sicop.go.cr',
+		'Referer' => 'https://www.sicop.go.cr',
+	),
 )));
 
 $crawler = $client->request('GET', $concurso_enlace);
@@ -28,24 +28,58 @@ $concurso_confidencial = $crawler->filter('table:nth-child(6) > tr:nth-child(5) 
 $cartel = $crawler->filter('table:nth-child(6) > tr:nth-child(6) > td:nth-child(2) > a')->text();
 $encargado_publicacion_gestion_objeciones_apertura = $crawler->filter('table:nth-child(6) > tr:nth-child(6) > td:nth-child(2) > a')->text();
 $elaborador = $crawler->filter('table:nth-child(6) > tr:nth-child(6) > td:nth-child(4) > a')->text();
-$encargado_solicitar_estudio_ofertas_recomendacion_adjudicacion     = $crawler->filter('table:nth-child(6) > tr:nth-child(7) > td:nth-child(2) > a')->text();
-$registro_cartel = $crawler->filter('body > div.sl_body > div > div.cl_context > table:nth-child(6) > tr:nth-child(7) > td:nth-child(4)')->text();
-$versiones_cartel = $crawler->filter('body > div.sl_body > div > div.cl_context > table:nth-child(6) > tr:nth-child(8) > td:nth-child(2)')->text();
-$version_consulta = $crawler->filter('body > div.sl_body > div > div.cl_context > table:nth-child(6) > tr:nth-child(8) > td:nth-child(4)')->text();
-$descripcion_procedimiento = $crawler->filter('body > div.sl_body > div > div.cl_context > table:nth-child(6) > tr:nth-child(9) > td > b')->text();
-$clasificacion_objeto = $crawler->filter('body > div.sl_body > div > div.cl_context > table:nth-child(6) > tr:nth-child(10) > td')->text();
-$tipo_procedimiento = $crawler->filter('body > div.sl_body > div > div.cl_context > table:nth-child(6) > tr:nth-child(11) > td > b')->text();
-$excepcion_contratacion_directa = $crawler->filter('body > div.sl_body > div > div.cl_context > table:nth-child(6) > tr:nth-child(12) > td')->text();
-$tipo_modalidad = $crawler->filter('body > div.sl_body > div > div.cl_context > table:nth-child(6) > tr:nth-child(13) > td')->text();
-$tipo_recepcion_oferta = $crawler->filter('body > div.sl_body > div > div.cl_context > table:nth-child(6) > tr:nth-child(14) > td:nth-child(2) > b')->text();
-$lugar_apertura = $crawler->filter('body > div.sl_body > div > div.cl_context > table:nth-child(6) > tr:nth-child(14) > td:nth-child(4) > a')->text();
-$inicio_recepcion_ofertas = $crawler->filter('body > div.sl_body > div > div.cl_context > table:nth-child(6) > tr:nth-child(15) > td:nth-child(2) > b')->text();
-$cierre_recepcion_ofertas = $crawler->filter('body > div.sl_body > div > div.cl_context > table:nth-child(6) > tr:nth-child(15) > td:nth-child(4) > b')->text();
-$fecha_hora_apertura_oferta = $crawler->filter('body > div.sl_body > div > div.cl_context > table:nth-child(6) > tr:nth-child(16) > td:nth-child(2) > b')->text();
-$plazo_adjudicacion = $crawler->filter('body > div.sl_body > div > div.cl_context > table:nth-child(6) > tr:nth-child(16) > td:nth-child(4)')->text();
-$presupuesto_total_estimado = $crawler->filter('body > div.sl_body > div > div.cl_context > table:nth-child(6) > tr:nth-child(17) > td:nth-child(2)')->text();
-$presupuesto_total_estimado_usd = $crawler->filter('body > div.sl_body > div > div.cl_context > table:nth-child(6) > tr:nth-child(17) > td:nth-child(4)')->text();
+$encargado_solicitar_estudio_ofertas_recomendacion_adjudicacion	 = $crawler->filter('table:nth-child(6) > tr:nth-child(7) > td:nth-child(2) > a')->text();
+$registro_cartel = $crawler->filter('table:nth-child(6) > tr:nth-child(7) > td:nth-child(4)')->text();
+$versiones_cartel = $crawler->filter('table:nth-child(6) > tr:nth-child(8) > td:nth-child(2)')->text();
+$version_consulta = $crawler->filter('table:nth-child(6) > tr:nth-child(8) > td:nth-child(4)')->text();
+$descripcion_procedimiento = $crawler->filter('table:nth-child(6) > tr:nth-child(9) > td > b')->text();
+$clasificacion_objeto = $crawler->filter('table:nth-child(6) > tr:nth-child(10) > td')->text();
+$tipo_procedimiento = $crawler->filter('table:nth-child(6) > tr:nth-child(11) > td > b')->text();
+$excepcion_contratacion_directa = $crawler->filter('table:nth-child(6) > tr:nth-child(12) > td')->text();
+$tipo_modalidad = $crawler->filter('table:nth-child(6) > tr:nth-child(13) > td')->text();
+$tipo_recepcion_oferta = $crawler->filter('table:nth-child(6) > tr:nth-child(14) > td:nth-child(2) > b')->text();
 
+$lugar_apertura = $crawler->filter('table:nth-child(6) > tr:nth-child(14) > td:nth-child(4) > a')->text();
+// $lugar_apertura = '';
+// if ($lugar_apertura = $crawler->filter('table:nth-child(6) > tr:nth-child(14) > td:nth-child(4) > a')->count()) {
+// 	$lugar_apertura = $crawler->filter('table:nth-child(6) > tr:nth-child(14) > td:nth-child(4) > a')->text();
+// } else {
+// 	'';
+// }
+$inicio_recepcion_ofertas = $crawler->filter('table:nth-child(6) > tr:nth-child(15) > td:nth-child(2) > b')->text();
+
+// $cierre_recepcion_ofertas = $crawler->filter('table:nth-child(6) > tr:nth-child(15) > td:nth-child(4) > b')->text();
+$cierre_recepcion_ofertas = '';
+if ($cierre_recepcion_ofertas = $crawler->filter('table:nth-child(6) > tr:nth-child(15) > td:nth-child(4) > b')->count()) {
+	$cierre_recepcion_ofertas = $crawler->filter('table:nth-child(6) > tr:nth-child(15) > td:nth-child(4) > b')->text();
+} else {
+	'';
+}
+
+// $fecha_hora_apertura_oferta = $crawler->filter('table:nth-child(6) > tr:nth-child(16) > td:nth-child(2) > b')->text();
+$fecha_hora_apertura_oferta = '';
+if ($fecha_hora_apertura_oferta = $crawler->filter('table:nth-child(6) > tr:nth-child(16) > td:nth-child(2) > b')->count()) {
+	$fecha_hora_apertura_oferta = $crawler->filter('table:nth-child(6) > tr:nth-child(16) > td:nth-child(2) > b')->text();
+} else {
+	'';
+}
+$plazo_adjudicacion = $crawler->filter('table:nth-child(6) > tr:nth-child(16) > td:nth-child(4)')->text();
+
+// $presupuesto_total_estimado = $crawler->filter('table:nth-child(6) > tr:nth-child(17) > td:nth-child(2)')->text();
+$presupuesto_total_estimado = '';
+if ($presupuesto_total_estimado = $crawler->filter('table:nth-child(6) > tr:nth-child(17) > td:nth-child(2)')->count()) {
+	$presupuesto_total_estimado = $crawler->filter('table:nth-child(6) > tr:nth-child(17) > td:nth-child(2)')->text();
+} else {
+	'';
+}
+
+// $presupuesto_total_estimado_usd = $crawler->filter('table:nth-child(6) > tr:nth-child(17) > td:nth-child(4)')->text();
+$presupuesto_total_estimado_usd = '';
+if ($presupuesto_total_estimado_usd = $crawler->filter('table:nth-child(6) > tr:nth-child(17) > td:nth-child(4)')->count()) {
+	$presupuesto_total_estimado_usd = $crawler->filter('table:nth-child(6) > tr:nth-child(17) > td:nth-child(4)')->text();
+} else {
+	'';
+}
 echo '<head>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>';
