@@ -19,25 +19,26 @@ $client = new Client(HttpClient::create(array(
 
 $crawler = $client->request('GET', $url);
 
-$crawler->filter('')->each(function ($node) {
+// $crawler->filter('td.eptdl')->each(function ($node) {
 
-    
-});
-
-// $crawler->filter('.epa')->each(function ($node) {
-//     $encargado_solicitud_publicacion = $node->filter('.epa:nth-child(1)')->text();
-//     echo $encargado_solicitud_publicacion;
-//     echo '</br>';
-
-//     $elaborador = $node->filter('.epa:nth-child(1)')->text();
-//     echo $elaborador;
-//     echo '</br>';
-
-//     $encargado_solicitar_estudio = $node->filter('.epa:nth-child(1)')->text();
-//     echo $encargado_solicitar_estudio;
-//     echo '</br>';
 // });
 
+$numero_proceso = $crawler->filter('td.eptdl b:nth-child(1)')->text();
+echo $numero_proceso;
+echo '</br>';
 
+$estado = $crawler->filter('font.epfred')->text();
+echo $estado;
+echo '</br>';
 
-// body > div > div > div.cl_context > table:nth-child(6) > tbody > tr:nth-child(5) > td:nth-child(2) > b
+$encargado_solicitud_publicacion = $crawler->filter('.epa:nth-child(1)')->text();
+echo $encargado_solicitud_publicacion;
+echo '</br>';
+
+$elaborador = $crawler->filter('.epa:nth-child(1)')->text();
+echo $elaborador;
+echo '</br>';
+
+$encargado_solicitar_estudio = $crawler->filter('.epa:nth-child(1)')->text();
+echo $encargado_solicitar_estudio;
+echo '</br>';
