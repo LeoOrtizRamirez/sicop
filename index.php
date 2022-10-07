@@ -1,7 +1,11 @@
 <?php
 if (isset($_POST['search'])) {
     $valueToSearh = $_POST['valueToSearh'];
-    $query = "SELECT * FROM concursos WHERE concurso_numero_procedimiento LIKE '%" . $valueToSearh . "%' OR concurso_estado LIKE '%" . $valueToSearh . "%' OR concurso_entidad_contratante LIKE '%" . $valueToSearh . "%'";
+    $query = "SELECT * FROM concursos WHERE 
+       concurso_numero_procedimiento LIKE '%" . $valueToSearh . "%'
+    OR concurso_estado LIKE '%" . $valueToSearh . "%' 
+    OR concurso_entidad_contratante LIKE '%" . $valueToSearh . "%'
+    OR concurso_fecha_publicacion LIKE '%" . $valueToSearh . "%'";
     $result = filterRecord($query);
 } else {
     $query = "SELECT * FROM concursos";
