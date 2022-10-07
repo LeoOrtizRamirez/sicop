@@ -38,16 +38,12 @@ $tipo_procedimiento = textValidation('table:nth-child(6) > tr:nth-child(11) > td
 $excepcion_contratacion_directa = textValidation('table:nth-child(6) > tr:nth-child(12) > td');
 $tipo_modalidad = textValidation('table:nth-child(6) > tr:nth-child(13) > td');
 $tipo_recepcion_oferta = textValidation('table:nth-child(6) > tr:nth-child(14) > td:nth-child(2) > b');
-
-
 $lugar_apertura = textValidation('table:nth-child(6) > tr:nth-child(14) > td:nth-child(4) > a');
 $inicio_recepcion_ofertas = $crawler->filter('table:nth-child(6) > tr:nth-child(15) > td:nth-child(2) > b')->text();
 $cierre_recepcion_ofertas = textValidation('table:nth-child(6) > tr:nth-child(15) > td:nth-child(4) > b');
 $fecha_hora_apertura_oferta = textValidation('table:nth-child(6) > tr:nth-child(16) > td:nth-child(2) > b');
 $plazo_adjudicacion = textValidation('table:nth-child(6) > tr:nth-child(16) > td:nth-child(4)');
 $presupuesto_total_estimado = textValidation('table:nth-child(6) > tr:nth-child(17) > td:nth-child(2)');
-
-
 $presupuesto_total_estimado_usd = textValidation('table:nth-child(6) > tr:nth-child(17) > td:nth-child(4)');
 
 function textValidation($selector){
