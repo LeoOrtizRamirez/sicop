@@ -46,7 +46,8 @@ $plazo_adjudicacion = textValidation('table:nth-child(6) > tr:nth-child(16) > td
 $presupuesto_total_estimado = textValidation('table:nth-child(6) > tr:nth-child(17) > td:nth-child(2)');
 $presupuesto_total_estimado_usd = textValidation('table:nth-child(6) > tr:nth-child(17) > td:nth-child(4)');
 
-function textValidation($selector){
+function textValidation($selector)
+{
 	global $crawler;
 	if ($text = $crawler->filter($selector)->count()) {
 		return $crawler->filter($selector)->text();

@@ -20,27 +20,27 @@ function filterRecord($query)
 }
 
 /*Inicio - Exportar a Excel */
-if(isset($_POST["export_data"])) {
+if (isset($_POST["export_data"])) {
     while ($row = mysqli_fetch_assoc($result)) {
         $concursos[] = $row;
     }
-    if(!empty($concursos)) {
+    if (!empty($concursos)) {
         $filename = "concursos.xls";
         header("Content-Type: application/vnd.ms-excel");
-        header("Content-Disposition: attachment; filename=".$filename);
+        header("Content-Disposition: attachment; filename=" . $filename);
         $mostrar_columnas = false;
-        foreach($concursos as $concurso) {
-            if(!$mostrar_columnas) {
+        foreach ($concursos as $concurso) {
+            if (!$mostrar_columnas) {
                 echo implode("\t", array_keys($concurso)) . "\n";
                 $mostrar_columnas = true;
             }
             echo implode("\t", array_values($concurso)) . "\n";
         }
-    }else{
+    } else {
         echo 'No hay datos a exportar';
     }
     exit;
-   }
+}
 /*Fin - Exportar a Excel */
 ?>
 <!DOCTYPE html>
@@ -64,15 +64,15 @@ if(isset($_POST["export_data"])) {
                     </ul>
                 </div>
                 <form action="" method="POST">
-            <div class="busqueda input-group">
-            <input class="form-control" type="search" name="valueToSearh" placeholder="Filtre aqui por Codigo de proceso, estado o entidad contratante...">
-                <span class="input-group-btn">
-                    <button id="show_password" class="btn btn-primary" type="submit"> 
-                    Buscar<span class="fa fa-eye-slash icon"></span>
-                    </button>
-                </span>
-            </div>
-            </form>
+                    <div class="busqueda input-group">
+                        <input class="form-control" type="search" name="valueToSearh" placeholder="Filtre aqui por Codigo de proceso, estado o entidad contratante...">
+                        <span class="input-group-btn">
+                            <button id="show_password" class="btn btn-primary" type="submit">
+                                Buscar<span class="fa fa-eye-slash icon"></span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
                 <div class="busqueda col-2 text-center">
                     <a href="borrarTodo.php">Borrar registros</a>
                 </div>
