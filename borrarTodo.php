@@ -26,3 +26,4 @@ if (mysqli_query($mysqli, $sql)) {
     echo 'window.location="index.php";';
     echo '</script>';
 }
+?>

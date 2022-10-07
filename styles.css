@@ -5,14 +5,14 @@
 
 .volver {
     margin: 10px 0px;
-    font-size: 20px;
 }
 
 .busqueda {
-    margin: 20px 0px;
-    width: 600px;
+    margin: 70px 0px 20px 0px;
+    width: 650px;
 }
-table tr th {
+
+.table tr th {
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;

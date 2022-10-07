@@ -66,4 +66,16 @@ class Concurso
 		// $stmt-> close();
 		$stmt = null;
 	}
+
+	static function limpiar($tabla){
+		$sql = "TRUNCATE TABLE " . $tabla;
+		$stmt = Conexion::conectar()->prepare($sql);
+		if ($stmt->execute()) {
+			echo 'Todos los registros fueron eliminados exitósamente';
+		} else {
+			echo 'Error al limpiar tabla';
+		}
+		// $stmt-> close();
+		$stmt = null;
+	}
 }

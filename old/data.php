@@ -8,8 +8,10 @@ use Symfony\Component\HttpClient\HttpClient;
 $desde_publicacion = dateFormat($_GET['desde_publicacion']);
 $hasta_publicacion = dateFormat($_GET['hasta_publicacion']);
 
-$url = 'https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ601.jsp?cartelTestYn=Y&cartelNm=&proceType=&cartelInstCd=&instNm=&regDtFrom=' . $desde_publicacion . '&regDtTo=' . $hasta_publicacion . '&instCartelNo=&cartelNo=&prodNm=&prodUnitUserYn=&prodUnit=&cateId=&prodCate=&biddocRcvYn=Y';
+$desde_apertura = '09/04/2022';
+$hasta_apertura = '05/12/2022';
 
+$url = 'https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ601.jsp?regDtFrom=' . $desde_publicacion . '&regDtTo=' . $hasta_publicacion . '&openbidDtFrom=' . $desde_apertura . '&openbidDtTo=' . $hasta_apertura . '';
 saveData($url);
 
 //Paginador
@@ -25,7 +27,7 @@ $crawler = $client->request('GET', $url);
 $pages = $crawler->filter('#total > span:nth-child(3)')->text();
 print_r($pages);
 for ($i = 2; $i < $pages; $i++) {
-    saveData('https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ601.jsp?cateId=&proceType=&biddocRcvYn=Y&regDtTo=' . $hasta_publicacion . '&regDtFrom=' . $desde_publicacion . '&instNm=&prodUnitUserYn=&prodNm=&instCartelNo=&cartelInstCd=&cartelTestYn=Y&cartelNo=&cartelNm=&prodCate=&prodUnit=&page_no=' . $i);
+    saveData('https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ601.jsp?regDtFrom=' . $desde_publicacion . '&regDtTo=' . $hasta_publicacion . '&instNm=&prodUnitUserYn=&openbidDtFrom=' . $desde_apertura . '&prodNm=&openbidDtTo=' . $hasta_apertura . '&page_no=' . $i);
 }
 
 function saveData($url)
@@ -76,7 +78,7 @@ function saveData($url)
     foreach ($data as $d) {
         Concurso::guardar('concursos', $d);
     }
-    Header("Location: mostrar.php");
+    Header("Location: index.php");
 }
 
 /*Custom functions*/
