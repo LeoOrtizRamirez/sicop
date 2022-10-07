@@ -78,7 +78,7 @@ function saveData($url)
     foreach ($data as $d) {
         Concurso::guardar('concursos', $d);
     }
-    Header("Location: mostrar.php");
+    Header("Location: index.php");
 }
 
 /*Custom functions*/

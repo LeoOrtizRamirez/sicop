@@ -81,11 +81,12 @@ function saveData($url)
             "concurso_entidad_contratante" => $cont_entity_text,
         ]);
     });
+
     foreach ($data as $d) {
         Concurso::guardar('concursos', $d);
     }
 
-    echo "Guardando...<br><br>";
+    echo "Guardando...";
     print_r(Concurso::obtener('concursos'));
     sleep(5);
 }
