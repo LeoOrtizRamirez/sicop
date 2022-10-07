@@ -86,7 +86,7 @@ echo '<head>
 
 echo '<div class="container mt-4">';
 echo '<h4>Detalles del concurso</h4>';
-echo '<p>Información general</p>';
+echo '<p>1. Información general</p>';
 echo '<table class="table table-striped ">
 <tr>
 	<th class="">Funcionarios relacionados</th>

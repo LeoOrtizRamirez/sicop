@@ -26,12 +26,13 @@ function filterRecord($query)
 
 <body class="body">
     <header id="header">
-        <div class="header">
+        <div class="header" style="display: flex !important;flex-direction: row !important;">
             <div class="row">
                 <div class="col-sm-3 col-md-2 sidebar">
-                    <p class="volver"> Listado de concursos</p>
+                    <img src="src/scraping.png" alt="">
+                    <h4 class="volver">Scraping www.sicop.go.cr</h4>
                     <ul class="nav nav-pills nav-sidebar">
-                        <li class="volver"><a href="index.php" data-toggle="sidebar">Volver a menu de consulta</a></li>
+                        <!-- <li class="volver"><a href="index.php" data-toggle="sidebar">Volver a menu de consulta</a></li> -->
                     </ul>
                 </div>
             </div>
@@ -51,7 +52,8 @@ function filterRecord($query)
     <th>Fecha Apertura</th>
     <th>Estado</th>
     <th>Entidad Contratante</th>
-    <th>Enlace a detalle</th>
+    <th></th>
+    <th>Enlace a detalle completo</th>
     </tr>
     </thead>";
     while ($row = mysqli_fetch_array($result)) {
@@ -62,7 +64,8 @@ function filterRecord($query)
         echo "<td>" . $row['concurso_fecha_apertura'] . "</td>";
         echo "<td>" . $row['concurso_estado'] . "</td>";
         echo "<td>" . $row['concurso_entidad_contratante'] . "</td>";
-        echo '<td> <a href="detalle.php?concurso_enlace=' . $row['concurso_enlace'] . '">' . $row['concurso_enlace'] . '</a> </td>';
+        echo '<td> <a class="btn btn-primary" target="_blank" href="detalle.php?concurso_enlace=' . $row['concurso_enlace'] . '">Resumen</a></td>';
+        echo '<td> <a target="_blank" href="detalle_context.php?concurso_enlace=' . $row['concurso_enlace'] . '">' . $row['concurso_enlace'] . '</a> </td>';
         echo "</tr>";
     }
     echo "</table>";
