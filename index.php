@@ -18,6 +18,30 @@ function filterRecord($query)
     $filter_result = mysqli_query($mysqli, $query);
     return $filter_result;
 }
+
+/*Inicio - Exportar a Excel */
+if(isset($_POST["export_data"])) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $concursos[] = $row;
+    }
+    if(!empty($concursos)) {
+        $filename = "concursos.xls";
+        header("Content-Type: application/vnd.ms-excel");
+        header("Content-Disposition: attachment; filename=".$filename);
+        $mostrar_columnas = false;
+        foreach($concursos as $concurso) {
+            if(!$mostrar_columnas) {
+                echo implode("\t", array_keys($concurso)) . "\n";
+                $mostrar_columnas = true;
+            }
+            echo implode("\t", array_values($concurso)) . "\n";
+        }
+    }else{
+        echo 'No hay datos a exportar';
+    }
+    exit;
+   }
+/*Fin - Exportar a Excel */
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,20 +56,31 @@ function filterRecord($query)
     <header id="header">
         <div class="header" style="display: flex !important;flex-direction: row !important;">
             <div class="row">
-                <div class="col-sm-3 col-md-2 sidebar">
+                <div class="col-2 sidebar">
                     <img src="src/scraping.png" alt="">
                     <h4 class="volver">Scraping www.sicop.go.cr</h4>
                     <ul class="nav nav-pills nav-sidebar">
                         <!-- <li class="volver"><a href="index.php" data-toggle="sidebar">Volver a menu de consulta</a></li> -->
                     </ul>
                 </div>
+                <form action="" method="POST">
+            <div class="busqueda input-group">
+            <input class="form-control" type="search" name="valueToSearh" placeholder="Filtre aqui por Codigo de proceso, estado o entidad contratante...">
+                <span class="input-group-btn">
+                    <button id="show_password" class="btn btn-primary" type="submit"> 
+                    Buscar<span class="fa fa-eye-slash icon"></span>
+                    </button>
+                </span>
             </div>
-            <form action="" method="POST">
-                <input class="busqueda" type="search" name="valueToSearh" placeholder="Filtre aqui por Codigo de proceso, estado o entidad contratante...">
-                <button type="submit" class="btn btn-primary" name="search">Buscar</button>
             </form>
-            <div style="margin-top: 75px;margin-left: 20px;font-size: 16px;">
-                <a href="borrarTodo.php">Borrar todos los registros guardados</a>
+                <div class="busqueda col-2 text-center">
+                    <a href="borrarTodo.php">Borrar registros</a>
+                </div>
+                <div class="busqueda col-2">
+                    <form class="" action=" <?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
+                        <button type="submit" id="export_data" name='export_data' value="Export to excel" class="btn btn-info">Exportar a Excel</button>
+                    </form>
+                </div>
             </div>
         </div>
 
