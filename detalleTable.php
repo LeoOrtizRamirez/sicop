@@ -1,11 +1,11 @@
 <?php
 if (isset($_POST['search'])) {
     $valueToSearh = $_POST['valueToSearh'];
-    $query =
-        $query = "SELECT * FROM concursos WHERE concurso_numero_procedimiento LIKE '%" . $valueToSearh . "%' OR concurso_estado LIKE '%" . $valueToSearh . "%' OR concurso_entidad_contratante LIKE '%" . $valueToSearh . "%'";
+    $query = "SELECT * FROM detalle_concursos WHERE 
+       cartel LIKE '%" . $valueToSearh . "%'";
     $result = filterRecord($query);
 } else {
-    $query = "SELECT * FROM concursos";
+    $query = "SELECT * FROM detalle_concursos";
     $result = filterRecord($query);
 }
 
@@ -67,42 +67,79 @@ if (isset($_POST["export_data"])) {
                         <button type="submit" id="export_data" name='export_data' value="Export to excel" class="btn btn-info">Exportar a Excel</button>
                     </form>
                 </div>
-                <div>
-                    <h4>Ver informacion completa :</h4>
-                    <div>
-                        <a class="btn btn-secondary" target="_blank" href="detalleForm.php">Vista formulario</a>
-                        <br><br>
-                        <a class="btn btn-secondary" target="_blank" href="detalleTable.php">Vista tabla</a>
-                    </div>
-                </div>
             </div>
         </div>
     </header>
     <?php
     echo "<table class='table table-striped '>
     <thead class='thead-dark'>
+    
     <tr>
     <th>#</th>
-    <th>Numero de procedimiento</th>
-    <th>Fecha Publicacion</th>
-    <th>Fecha Apertura</th>
+    
     <th>Estado</th>
-    <th>Entidad Contratante</th>
-    <th></th>
-    <th>Enlace a detalle completo</th>
+    <th>Fecha Hora Publicacion</th>
+    <th>Cartel</th>
+    <th># Procedimiento</th>
+    <th># Sicop 1</th>
+
+    <th>Nombre Institucion</th>
+    <th>Concurso Confidencial</th>
+
+    <th>Encargado Publicacion</th>
+    <th>Elaborador</th>
+    <th>Encargado Solicitar</th>
+    <th>Registro Cartel</th>
+    <th>Versiones Cartel</th>
+    <th>Version Consulta</th>
+    <th>Descripcion Procedimiento</th>
+    <th>Clasificacion Objeto</th>
+    <th>Tipo Procedimiento</th>
+    <th>Excepcion Contratacion Directa</th>
+    <th>Tipo Modalidad</th>
+    <th>Tipo Recepcion Oferta</th>
+    <th>Lugar Apertura</th>
+    <th>Inicio Recepcion Ofertas</th>
+    <th>Cierre Recepcion Ofertas</th>
+    <th>Fecha Hora Apertura Oferta</th>
+    <th>Plazo Adjudicacion</th>
+    <th>Presupuesto Total Estimado</th>
+    <th>Presupuesto Total Estimado Usd</th>
     </tr>
     </thead>";
     while ($row = mysqli_fetch_array($result)) {
         echo "<tbody id='busquedaTable'>";
         echo "<tr>";
-        echo "<td>" . $row['concurso_id'] . "</td>";
-        echo "<td>" . $row['concurso_numero_procedimiento'] . "</td>";
-        echo "<td>" . $row['concurso_fecha_publicacion'] . "</td>";
-        echo "<td>" . $row['concurso_fecha_apertura'] . "</td>";
-        echo "<td>" . $row['concurso_estado'] . "</td>";
-        echo "<td>" . $row['concurso_entidad_contratante'] . "</td>";
-        echo '<td> <a class="btn btn-primary" target="_blank" href="detalle.php?concurso_enlace=' . $row['concurso_enlace'] . '">Resumen</a></td>';
-        echo '<td> <a target="_blank" href="detalle_context.php?concurso_enlace=' . $row['concurso_enlace'] . '">' . $row['concurso_enlace'] . '</a> </td>';
+        echo "<td>" . $row['id_detalle_concurso'] . "</td>";
+        // echo "<td>" . $row['funcionarios_relacionados_concurso'] . "</td>";
+        echo "<td>" . $row['estado_concurso'] . "</td>";
+        echo "<td>" . $row['fecha_hora_publicacion'] . "</td>";
+        echo "<td>" . $row['cartel'] . "</td>";
+        echo "<td>" . $row['numero_procedimiento'] . "</td>";
+        echo "<td>" . $row['numero_sicop_1'] . "</td>";
+        // echo "<td>" . $row['numero_sicop_2'] . "</td>";
+        echo "<td>" . $row['nombre_institucion'] . "</td>";
+        echo "<td>" . $row['concurso_confidencial'] . "</td>";
+        // echo "<td>" . $row['cartel_2'] . "</td>";
+        echo "<td>" . $row['encargado_publicacion_gestion_objeciones_apertura'] . "</td>";
+        echo "<td>" . $row['elaborador'] . "</td>";
+        echo "<td>" . $row['encargado_solicitar_estudio_ofertas_recomendacion_adjudicacion'] . "</td>";
+        echo "<td>" . $row['registro_cartel'] . "</td>";
+        echo "<td>" . $row['versiones_cartel'] . "</td>";
+        echo "<td>" . $row['version_consulta'] . "</td>";
+        echo "<td>" . $row['descripcion_procedimiento'] . "</td>";
+        echo "<td>" . $row['clasificacion_objeto'] . "</td>";
+        echo "<td>" . $row['tipo_procedimiento'] . "</td>";
+        echo "<td>" . $row['excepcion_contratacion_directa'] . "</td>";
+        echo "<td>" . $row['tipo_modalidad'] . "</td>";
+        echo "<td>" . $row['tipo_recepcion_oferta'] . "</td>";
+        echo "<td>" . $row['lugar_apertura'] . "</td>";
+        echo "<td>" . $row['inicio_recepcion_ofertas'] . "</td>";
+        echo "<td>" . $row['cierre_recepcion_ofertas'] . "</td>";
+        echo "<td>" . $row['fecha_hora_apertura_oferta'] . "</td>";
+        echo "<td>" . $row['plazo_adjudicacion'] . "</td>";
+        echo "<td>" . $row['presupuesto_total_estimado'] . "</td>";
+        echo "<td>" . $row['presupuesto_total_estimado_usd'] . "</td>";
         echo "</tr>";
         echo "<tbody";
     }
