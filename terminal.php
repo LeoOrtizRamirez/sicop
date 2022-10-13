@@ -3,12 +3,14 @@ include 'vendor/autoload.php';
 // include "conect.php";
 require_once('concurso.php');
 require_once('DetalleConcurso.php');
+require_once('C:\xampp\htdocs\sicop\EnlacesDetalleConcurso.php');
 
 use Goutte\Client;
 use Symfony\Component\HttpClient\HttpClient;
 
 Concurso::limpiar('concursos');
 Concurso::limpiar('detalle_concursos');
+EnlacesDetalleConcurso::limpiar('enlaces_detalle_concursos');
 
 echo "FECHA DE PUBLICACIÓN\n";
 echo "Desde:  (Ingrese su fecha en formato dd/mm/aaaa)\n";
@@ -38,7 +40,7 @@ for ($i = 2; $i <= $pages; $i++) {
 }
 /*Inicio Segundo proceso */
 function guardarDetalleConcurso($url){
-    echo $url;
+    //echo $url;
     
     $funcionarios_relacionados_concurso = textValidation($url, 'table:nth-child(6) > tr:nth-child(2) > td:nth-child(2) > span > a');
     $estado_concurso = textValidation($url, 'table:nth-child(6) > tr:nth-child(2) > td:nth-child(4) > font');
@@ -102,11 +104,160 @@ function guardarDetalleConcurso($url){
         "presupuesto_total_estimado" => $presupuesto_total_estimado,
         "presupuesto_total_estimado_usd" => $presupuesto_total_estimado_usd,
     ]);
-    print_r($data[0]);
+    //print_r($data[0]);
     DetalleConcurso::guardar('detalle_concursos', $data[0]);
+
+    guardarEnlacesDetalleConcurso($url);
     
 }
 /*Fin Segundo proceso */
+
+/*Inicio Tercer proceso*/
+function guardarEnlacesDetalleConcurso($url){
+    //Botones encabezado
+    $numero_sicop_1 = textValidation($url, 'table:nth-child(6) > tr:nth-child(4) > td:nth-child(4) > input.epreadc.readonly.fixCartelNo','value');
+    $numero_sicop_2 = textValidation($url, 'table:nth-child(6) > tr:nth-child(4) > td:nth-child(4) > input.epreadc.readonly.fixCartelSeq','value');
+    $numero_procedimiento = textValidation($url, 'table:nth-child(6) > tr:nth-child(4) > td:nth-child(2)');
+
+    $concurso_id = $numero_sicop_1;
+    $historial_modificaciones_cartel = 'https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ604.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2;
+    $consulta_notificaciones = 'https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ724.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&instCartelNo='.$numero_procedimiento;
+    $historial_modificaciones_presupuesto = 'https://www.sicop.go.cr/moduloBid/etc/EP_ETJ_EXQ876.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2;
+
+    $funcionarios_relacionados_concurso = 'https://www.sicop.go.cr/moduloBid/common/co/EpUserAuthList.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&cartelCate=';
+
+    $aplicacion_sistema = 'https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ625.jsp?isView=Y&progId=coq603&cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&isPopup=';
+
+    $solicitud_aclaracion = 'https://www.sicop.go.cr/moduloBid/cartel/EP_CTJ_POI018.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&biddocTypeCd=XM';//Requiere login
+    $consulta_aclaracion = 'https://www.sicop.go.cr/moduloBid/cartel/EP_CTJ_COQ015.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&isPopup=';
+    $first_data = array();
+    array_push($first_data, [
+        "concurso_id" => $concurso_id,
+        "nombre" => "historial_modificaciones_cartel",
+        "link" => $historial_modificaciones_cartel,
+    ]);
+    EnlacesDetalleConcurso::guardar('enlaces_detalle_concursos', $first_data[0]);
+    $first_data = array();
+    
+    array_push($first_data, [
+        "concurso_id" => $concurso_id,
+        "nombre" => "consulta_notificaciones",
+        "link" => $consulta_notificaciones,
+    ]);
+    EnlacesDetalleConcurso::guardar('enlaces_detalle_concursos', $first_data[0]);
+    $first_data = array();
+    array_push($first_data, [
+        "concurso_id" => $concurso_id,
+        "nombre" => "historial_modificaciones_presupuesto",
+        "link" => $historial_modificaciones_presupuesto,
+    ]);
+    EnlacesDetalleConcurso::guardar('enlaces_detalle_concursos', $first_data[0]);
+    $first_data = array();
+    array_push($first_data, [
+        "concurso_id" => $concurso_id,
+        "nombre" => "funcionarios_relacionados_concurso",
+        "link" => $funcionarios_relacionados_concurso,
+    ]);
+    EnlacesDetalleConcurso::guardar('enlaces_detalle_concursos', $first_data[0]);
+    $first_data = array();
+    array_push($first_data, [
+        "concurso_id" => $concurso_id,
+        "nombre" => "aplicacion_sistema",
+        "link" => $aplicacion_sistema,
+    ]);
+    EnlacesDetalleConcurso::guardar('enlaces_detalle_concursos', $first_data[0]);
+    $first_data = array();
+    array_push($first_data, [
+        "concurso_id" => $concurso_id,
+        "nombre" => "solicitud_aclaracion",
+        "link" => $solicitud_aclaracion,
+    ]);
+    EnlacesDetalleConcurso::guardar('enlaces_detalle_concursos', $first_data[0]);
+    $first_data = array();
+    array_push($first_data, [
+        "concurso_id" => $concurso_id,
+        "nombre" => "consulta_aclaracion",
+        "link" => $consulta_aclaracion,
+    ]);
+    EnlacesDetalleConcurso::guardar('enlaces_detalle_concursos', $first_data[0]);
+    $first_data = array();
+
+
+    //[ 11. Información de bien, servicio u obra ]
+    $client = new Client();
+    $client = new Client(HttpClient::create(array(
+        'headers' => array(
+            'Host' => 'www.sicop.go.cr',
+            'Referer' => 'https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ600.js',
+        ),
+    )));
+    $crawler = $client->request('GET', $url);
+
+    $crawler->filter('table:has(td[rowspan]) tr:not(:first-child)')->each(function ($node) use (&$concurso_id, &$numero_sicop_1, &$numero_sicop_2, &$partida) {
+        $partida = "";
+        $primera_vez = true;
+        echo $primera_vez;
+
+        //A las filas diferentes a la primera se les resta 1 posicion (td:nth-child(8))
+        if($node->filter('td:nth-child(1)')->attr('rowspan') == 1 && $primera_vez){
+            $primera_vez = false;
+            //Verifica que exista un botón
+            if ($node->filter('td:nth-child(8) > span > a')->count()) {
+                $partida = $node->filter('td:nth-child(2)')->text();
+                $detalle_partida = 'https://www.sicop.go.cr/moduloBid/cartel/EP_CTJ_EXQ005.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&cartelCate='.$partida;
+                $informacion_bien_servicio_obra = array();
+                array_push($informacion_bien_servicio_obra, [
+                    "concurso_id" => $concurso_id,
+                    "nombre" => "detalle_partida",
+                    "link" => $detalle_partida,
+                ]);
+                EnlacesDetalleConcurso::guardar('enlaces_detalle_concursos', $informacion_bien_servicio_obra[0]);
+            }
+
+            $linea = "";
+            if ($node->filter('td:nth-child(2)')->count()) {
+                $linea = $node->filter('td:nth-child(2)')->text();
+                $detalle_linea = 'https://www.sicop.go.cr/moduloBid/cartel/EP_CTJ_EXQ005.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&cartelCate='.$partida.'&cateSeqno='.$linea;
+                $informacion_bien_servicio_obra = array();
+                array_push($informacion_bien_servicio_obra, [
+                    "concurso_id" => $concurso_id,
+                    "nombre" => "detalle_linea",
+                    "link" => $detalle_linea,
+                ]);
+                EnlacesDetalleConcurso::guardar('enlaces_detalle_concursos', $informacion_bien_servicio_obra[0]);
+            } 
+
+        }else{
+            if ($node->filter('td:nth-child(7) > span > a')->count()) {
+                $partida = $node->filter('td:nth-child(1)')->text();
+                $detalle_partida = 'https://www.sicop.go.cr/moduloBid/cartel/EP_CTJ_EXQ005.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&cartelCate='.$partida;
+                $informacion_bien_servicio_obra = array();
+                array_push($informacion_bien_servicio_obra, [
+                    "concurso_id" => $concurso_id,
+                    "nombre" => "detalle_partida",
+                    "link" => $detalle_partida,
+                ]);
+                EnlacesDetalleConcurso::guardar('enlaces_detalle_concursos', $informacion_bien_servicio_obra[0]);
+            }else{
+                echo "no encontro detalle \n";
+            }
+
+            $linea = "";
+            if ($node->filter('td:nth-child(1)')->count()) {
+                $linea = $node->filter('td:nth-child(1)')->text();
+                $detalle_linea = 'https://www.sicop.go.cr/moduloBid/cartel/EP_CTJ_EXQ005.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&cartelCate='.$partida.'&cateSeqno='.$linea;
+                $informacion_bien_servicio_obra = array();
+                array_push($informacion_bien_servicio_obra, [
+                    "concurso_id" => $concurso_id,
+                    "nombre" => "detalle_linea",
+                    "link" => $detalle_linea,
+                ]);
+                EnlacesDetalleConcurso::guardar('enlaces_detalle_concursos', $informacion_bien_servicio_obra[0]);
+            } 
+        }
+    });
+}
+/*Fin Tercer proceso */
 
 function saveData($url)
 {
@@ -134,7 +285,7 @@ function saveData($url)
         $open_date = fromStringToDate($open_date);
 
         /*BUSCA LAS POSICIÓN DONDE ESTÁN LOS ELEMENTOS PARA EXTRAER EL TEXTO*/
-        $findme_a   = '<br>';
+        $findme_a   = '\n';
         $findme_b   = '</td>';
         $pos_a = strpos($cont_entity, $findme_a);
         $pos_b = strpos($cont_entity, $findme_b);
@@ -163,7 +314,7 @@ function saveData($url)
     }
 
     echo "Guardando...";
-    print_r(Concurso::obtener('concursos'));
+    //print_r(Concurso::obtener('concursos'));
     sleep(1);
 }
 
