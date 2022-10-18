@@ -27,7 +27,7 @@ function filterRecord($query)
 </head>
 
 <body class="body">
-<header id="header">
+    <header id="header">
         <div class="encabezado">
             <div class="row">
                 <div class="col-2">
@@ -41,19 +41,24 @@ function filterRecord($query)
                 </div>
                 <div class="busqueda col-2">
                     <form class="" action=" <?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
-                        <button type="submit" id="export_data" name='export_data' value="Export to excel" class="btn btn-info">Exportar a Excel</button>
+                        <!-- <button type="submit" id="export_data" name='export_data' value="Export to excel" class="btn btn-info">Exportar a Excel</button> -->
                     </form>
                 </div>
                 <div>
                     <!-- <h4 style="margin-top: 75px;">Informacion completa</h4> -->
                     <div>
-                        <a style="margin-top: 73px;" class="btn btn-primary" target="_blank" href="detalleForm.php">Vista formulario</a>
+                        <a style="margin-top: 73px;" class="btn btn-primary" target="_blank" href="index.php">Inicio</a>
                         <!-- <br><br> -->
-                        <a style="margin-top: 73px;" class="btn btn-primary" target="_blank" href="detalleTable.php">Vista tabla</a>
+                        <a style="margin-top: 73px;" class="btn btn-secondary" target="_blank" href="detalleForm.php">Vista formulario</a>
                         <!-- <br><br> -->
-                        <a style="margin-top: 73px;" class="btn btn-primary" target="_blank" href="detalleTableBtn.php">Vista botones</a>
+                        <a style="margin-top: 73px;" class="btn btn-secondary" target="_blank" href="detalleTable.php">Vista tabla</a>
+                        <!-- <br><br> -->
+                        <a style="margin-top: 73px;" class="btn btn-secondary" target="_blank" href="detalleTableBtn.php">Vista botones</a>
                         <!-- <br><br> -->
                     </div>
+                </div>
+                <div>
+                    <img src="src/bot.png" alt="">
                 </div>
             </div>
         </div>
