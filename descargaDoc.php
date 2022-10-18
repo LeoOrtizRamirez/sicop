@@ -1,75 +1,25 @@
 <?php
-include 'vendor/autoload.php';
-
-use Goutte\Client;
-use Symfony\Component\CssSelector\Parser\Tokenizer\TokenizerEscaping;
-use Symfony\Component\HttpClient\HttpClient;
-
-$concurso_enlace = $_GET['concurso_enlace'];
-$concurso_enlace = ($concurso_enlace . '&cartelSeq=00');
-
-$client = new Client(HttpClient::create(array(
-	'headers' => array(
-		// 'Host' => 'www.sicop.go.cr',
-		'Referer' => 'https://www.sicop.go.cr',
-	),
-)));
-
-$crawler = $client->request('GET', $concurso_enlace);
-
-// body > div > div > div.cl_context > table:nth-child(45)  tr
-// body > div > div > div.cl_context > table:nth-child(45)  tr td
-// body > div > div > div.cl_context > table:nth-child(45)  tr td a
-
-$crawler->filter('div.cl_context > table:nth-child(45) tr:not(:first-child)')->each(function ($node) {
-	// Filtrar datos
-	$info_eptdc = '';
-	if ($info_eptdc = $node->filter('tr td.eptdc')->count()) {
-		$info_eptdc = $node->filter('tr td.eptdc')->text();
-	} else {
-		$info_eptdc = 'Campo vacio';
+  header('Content-Type: text/html; charset=utf-8');
+	$concurso_numero_procedimiento = $_GET['concurso_numero_procedimiento'];
+	$query = "SELECT * FROM enlace_detalle_concursos WHERE concurso_numero_procedimiento = '".$concurso_numero_procedimiento."' AND nombre LIKE '%Documentos del cartel: %'";
+	$result = filterRecord($query);
+	function filterRecord($query){
+		include "conect.php";
+		$filter_result = mysqli_query($mysqli, $query);
+		return $filter_result;
 	}
-	// echo $info_eptdc;
-	// echo '</br>';
-
-	$info_eptdl = '';
-	if ($info_eptdl = $node->filter('td.eptdl')->count()) {
-		$info_eptdl = $node->filter('td.eptdl')->text();
-	} else {
-		$info_eptdl = 'Campo vacio';
-	}
-	// echo $info_eptdl;
-	// echo '</br>';
-
-	$info_eptdl_a = 'https://www.sicop.go.cr/moduloBid/servlet/cartel/EP_CTV_EXA008';
-	// if ($info_eptdl_a = $node->filter('td a')->count()) {
-	// 	$info_eptdl_a = $node->filter('td a')->attr('href');
-	// } else {
-	// 	$info_eptdl_a = 'Campo vacio';
-	// }
-	// echo $info_eptdl_a;
-	// echo '</br>';
-
-	$info_eptdl_a_txt = '';
-	if ($info_eptdl_a_txt = $node->filter('td a')->count()) {
-		$info_eptdl_a_txt = $node->filter('td a')->text();
-	} else {
-		$info_eptdl_a_txt = 'Campo vacio';
-	}
-	// echo $info_eptdl_a_txt;
-	// echo '</br>';
-
 ?>
-	<!DOCTYPE html>
-	<html>
+<!DOCTYPE html>
+<html>
 
-	<head>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-		<link rel="stylesheet" href="styles.css">
-	</head>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
 
-	<body class="body">
+<body class="body">
+    <header id="header">
 		<header id="header">
 			<div class="row">
 				<div class="col-2 sidebar">
@@ -78,21 +28,33 @@ $crawler->filter('div.cl_context > table:nth-child(45) tr:not(:first-child)')->e
 				</div>
 			</div>
 		</header>
-	<?php
-	echo "<table class='table table-striped '>
+    </header>
+    <?php
+    echo "<table class='table table-striped '>
     <thead class='thead-dark'>
+    
     <tr>
     <th>No</th>
-    <th>Tipo Documento</th>
-    <th>Nombre del documento</th>
-    <th>Archivo adjunto</th>
+    <th>Tipo de documento</th>
+	<th>Nombre del documento</th>
+	<th>Archivo adjunto</th>
     </tr>
-    </thead>
-        <tr>
-        <td> $info_eptdc </td>
-        <td> Documentos del cartel </td>
-        <td> $info_eptdl_a_txt </td>
-		<td> <a href='descarga.php?info_eptdl_a=$info_eptdl_a' > Descargar </a> </td>
-        </tr>
-    </table>";
-});
+    </thead>";
+	$iterator = 0;
+    while ($row = mysqli_fetch_array($result)) {
+		$iterator += 1;
+        echo "<tbody>";
+        echo "<tr>";
+		echo "<td>" .$iterator. "</td>";
+        echo "<td>Documentos del cartel	</td>";
+        echo "<td>" . $row['nombre'] . "</td>";
+        echo "<td><a href='" . $row['link'] . "'>Descargar</a></td>";
+        echo "</tr>";
+        echo "<tbody";
+    }
+    echo "</table>";
+    ?>
+    </div>
+</body>
+
+</html>

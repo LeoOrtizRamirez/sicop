@@ -21,6 +21,8 @@ fscanf(STDIN, "%s", $hasta_publicacion);
 $desde_apertura = '09/04/2022';
 $hasta_apertura = '05/12/2022';
 
+global $name;
+
 $url = 'https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ601.jsp?regDtFrom=' . $desde_publicacion . '&regDtTo=' . $hasta_publicacion . '&openbidDtFrom=' . $desde_apertura . '&openbidDtTo=' . $hasta_apertura . '';
 saveData($url);
 
@@ -119,7 +121,9 @@ function guardarEnlacesDetalleConcurso($url){
     $numero_sicop_2 = textValidation($url, 'table:nth-child(6) > tr:nth-child(4) > td:nth-child(4) > input.epreadc.readonly.fixCartelSeq','value');
     $numero_procedimiento = textValidation($url, 'table:nth-child(6) > tr:nth-child(4) > td:nth-child(2)');
 
-    $concurso_id = $numero_sicop_1;
+    //$proc_num = $numero_sicop_1;
+
+    $proc_num = textValidation($url,'td.eptdl b');
     $historial_modificaciones_cartel = 'https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ604.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2;
     $consulta_notificaciones = 'https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ724.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&instCartelNo='.$numero_procedimiento;
     $historial_modificaciones_presupuesto = 'https://www.sicop.go.cr/moduloBid/etc/EP_ETJ_EXQ876.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2;
@@ -132,7 +136,7 @@ function guardarEnlacesDetalleConcurso($url){
     $consulta_aclaracion = 'https://www.sicop.go.cr/moduloBid/cartel/EP_CTJ_COQ015.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&isPopup=';
     $first_data = array();
     array_push($first_data, [
-        "concurso_id" => $concurso_id,
+        "concurso_numero_procedimiento" => $proc_num,
         "nombre" => "historial_modificaciones_cartel",
         "link" => $historial_modificaciones_cartel,
     ]);
@@ -140,48 +144,47 @@ function guardarEnlacesDetalleConcurso($url){
     $first_data = array();
     
     array_push($first_data, [
-        "concurso_id" => $concurso_id,
+        "concurso_numero_procedimiento" => $proc_num,
         "nombre" => "consulta_notificaciones",
         "link" => $consulta_notificaciones,
     ]);
     EnlacesDetalleConcurso::guardar('enlace_detalle_concursos', $first_data[0]);
     $first_data = array();
     array_push($first_data, [
-        "concurso_id" => $concurso_id,
+        "concurso_numero_procedimiento" => $proc_num,
         "nombre" => "historial_modificaciones_presupuesto",
         "link" => $historial_modificaciones_presupuesto,
     ]);
     EnlacesDetalleConcurso::guardar('enlace_detalle_concursos', $first_data[0]);
     $first_data = array();
     array_push($first_data, [
-        "concurso_id" => $concurso_id,
+        "concurso_numero_procedimiento" => $proc_num,
         "nombre" => "funcionarios_relacionados_concurso",
         "link" => $funcionarios_relacionados_concurso,
     ]);
     EnlacesDetalleConcurso::guardar('enlace_detalle_concursos', $first_data[0]);
     $first_data = array();
     array_push($first_data, [
-        "concurso_id" => $concurso_id,
+        "concurso_numero_procedimiento" => $proc_num,
         "nombre" => "aplicacion_sistema",
         "link" => $aplicacion_sistema,
     ]);
     EnlacesDetalleConcurso::guardar('enlace_detalle_concursos', $first_data[0]);
     $first_data = array();
     array_push($first_data, [
-        "concurso_id" => $concurso_id,
+        "concurso_numero_procedimiento" => $proc_num,
         "nombre" => "solicitud_aclaracion",
         "link" => $solicitud_aclaracion,
     ]);
     EnlacesDetalleConcurso::guardar('enlace_detalle_concursos', $first_data[0]);
     $first_data = array();
     array_push($first_data, [
-        "concurso_id" => $concurso_id,
+        "concurso_numero_procedimiento" => $proc_num,
         "nombre" => "consulta_aclaracion",
         "link" => $consulta_aclaracion,
     ]);
     EnlacesDetalleConcurso::guardar('enlace_detalle_concursos', $first_data[0]);
     $first_data = array();
-
 
     //[ 11. Información de bien, servicio u obra ]
     $client = new Client();
@@ -194,7 +197,7 @@ function guardarEnlacesDetalleConcurso($url){
     $crawler = $client->request('GET', $url);
 
     $primera_vez = true;
-    $crawler->filterXPath('.//table[count(.//td[@rowspan]) > 0]//tr[not(self::node()[not(preceding-sibling::*)])]')->each(function ($node) use (&$concurso_id, &$numero_sicop_1, &$numero_sicop_2, &$partida, &$primera_vez) {
+    $crawler->filterXPath('.//table[count(.//td[@rowspan]) > 0]//tr[not(self::node()[not(preceding-sibling::*)])]')->each(function ($node) use (&$proc_num, &$numero_sicop_1, &$numero_sicop_2, &$partida, &$primera_vez) {
         //A las filas diferentes a la primera se les resta 1 posicion (td:nth-child(8))
         if($node->filter('td:nth-child(1)')->attr('rowspan') == 1 && $primera_vez){
             $primera_vez = false;
@@ -204,7 +207,7 @@ function guardarEnlacesDetalleConcurso($url){
                 $detalle_partida = 'https://www.sicop.go.cr/moduloBid/cartel/EP_CTJ_EXQ005.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&cartelCate='.$partida;
                 $informacion_bien_servicio_obra = array();
                 array_push($informacion_bien_servicio_obra, [
-                    "concurso_id" => $concurso_id,
+                    "concurso_numero_procedimiento" => $proc_num,
                     "nombre" => "detalle_partida",
                     "link" => $detalle_partida,
                 ]);
@@ -216,7 +219,7 @@ function guardarEnlacesDetalleConcurso($url){
                 $detalle_linea = 'https://www.sicop.go.cr/moduloBid/cartel/EP_CTJ_EXQ005.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&cartelCate='.$partida.'&cateSeqno='.$linea;
                 $informacion_bien_servicio_obra = array();
                 array_push($informacion_bien_servicio_obra, [
-                    "concurso_id" => $concurso_id,
+                    "concurso_numero_procedimiento" => $proc_num,
                     "nombre" => "detalle_linea",
                     "link" => $detalle_linea,
                 ]);
@@ -231,7 +234,7 @@ function guardarEnlacesDetalleConcurso($url){
                     $detalle_partida = 'https://www.sicop.go.cr/moduloBid/cartel/EP_CTJ_EXQ005.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&cartelCate='.$partida;
                     $informacion_bien_servicio_obra = array();
                     array_push($informacion_bien_servicio_obra, [
-                        "concurso_id" => $concurso_id,
+                        "concurso_numero_procedimiento" => $proc_num,
                         "nombre" => "detalle_partida",
                         "link" => $detalle_partida,
                     ]);
@@ -243,7 +246,7 @@ function guardarEnlacesDetalleConcurso($url){
                         $detalle_linea = 'https://www.sicop.go.cr/moduloBid/cartel/EP_CTJ_EXQ005.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&cartelCate='.$partida.'&cateSeqno='.$linea;
                         $informacion_bien_servicio_obra = array();
                         array_push($informacion_bien_servicio_obra, [
-                            "concurso_id" => $concurso_id,
+                            "concurso_numero_procedimiento" => $proc_num,
                             "nombre" => "detalle_linea",
                             "link" => $detalle_linea,
                         ]);
@@ -259,7 +262,7 @@ function guardarEnlacesDetalleConcurso($url){
                     $detalle_partida = 'https://www.sicop.go.cr/moduloBid/cartel/EP_CTJ_EXQ005.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&cartelCate='.$partida;
                     $informacion_bien_servicio_obra = array();
                     array_push($informacion_bien_servicio_obra, [
-                        "concurso_id" => $concurso_id,
+                        "concurso_numero_procedimiento" => $proc_num,
                         "nombre" => "detalle_partida",
                         "link" => $detalle_partida,
                     ]);
@@ -273,7 +276,7 @@ function guardarEnlacesDetalleConcurso($url){
                     $detalle_linea = 'https://www.sicop.go.cr/moduloBid/cartel/EP_CTJ_EXQ005.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&cartelCate='.$partida.'&cateSeqno='.$linea;
                     $informacion_bien_servicio_obra = array();
                     array_push($informacion_bien_servicio_obra, [
-                        "concurso_id" => $concurso_id,
+                        "concurso_numero_procedimiento" => $proc_num,
                         "nombre" => "detalle_linea",
                         "link" => $detalle_linea,
                     ]);
@@ -287,7 +290,7 @@ function guardarEnlacesDetalleConcurso($url){
 
     //[ 12. Procesos por partida ]
     $cartel_version = $crawler->filter('input[name="cartelVersion"]')->attr('value');
-    $crawler->filterXPath('.//table[count(.//td[@rowspan]) > 0]/following-sibling::table[1] //tr[not(self::node()[not(preceding-sibling::*)])]')->each(function ($node) use (&$concurso_id, &$numero_sicop_1, &$numero_sicop_2, &$partida, &$primera_vez, &$cartel_version) {
+    $crawler->filterXPath('.//table[count(.//td[@rowspan]) > 0]/following-sibling::table[1] //tr[not(self::node()[not(preceding-sibling::*)])]')->each(function ($node) use (&$proc_num, &$numero_sicop_1, &$numero_sicop_2, &$partida, &$primera_vez, &$cartel_version) {
         $name = $node->filter('td:nth-child(1)')->text();
         $cartel_cate = str_replace("Partida", "", $name);
         $cartel_cate = str_replace(" ", "", $name);
@@ -297,7 +300,7 @@ function guardarEnlacesDetalleConcurso($url){
             $presentar_recurso = 'https://www.sicop.go.cr/moduloBid/cgr/Ep_CgrRecursoSelect.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&cartelCate='.$cartel_cate.'&cartelVersion='.$cartel_version.'&recursoCate=CT';
             $informacion_bien_servicio_obra = array();
                 array_push($informacion_bien_servicio_obra, [
-                    "concurso_id" => $concurso_id,
+                    "concurso_numero_procedimiento" => $proc_num,
                     "nombre" => $name."_presentar_recurso",
                     "link" => $presentar_recurso,
                 ]);
@@ -307,7 +310,7 @@ function guardarEnlacesDetalleConcurso($url){
             $consultar = 'https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_POQ400.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&cartelCate='.$cartel_cate.'&reqNew=1';
             $informacion_bien_servicio_obra = array();
                 array_push($informacion_bien_servicio_obra, [
-                    "concurso_id" => $concurso_id,
+                    "concurso_numero_procedimiento" => $proc_num,
                     "nombre" => $name."_consultar",
                     "link" => $consultar,
                 ]);
@@ -317,7 +320,7 @@ function guardarEnlacesDetalleConcurso($url){
             $ofertar = 'https://www.sicop.go.cr/moduloOferta/servlet/oferta/EP_OTV_PNA100?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&cartelCate='.$cartel_cate;
             $informacion_bien_servicio_obra = array();
                 array_push($informacion_bien_servicio_obra, [
-                    "concurso_id" => $concurso_id,
+                    "concurso_numero_procedimiento" => $proc_num,
                     "nombre" => $name."_ofertar",
                     "link" => $ofertar,
                 ]);
@@ -327,7 +330,7 @@ function guardarEnlacesDetalleConcurso($url){
             $resultado_apertura = 'https://www.sicop.go.cr/moduloOferta/servlet/search/EP_SEV_COQ622?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&cartelCate='.$cartel_cate.'&cartelProgressCd='.$cartel_progress_cd;
             $informacion_bien_servicio_obra = array();
                 array_push($informacion_bien_servicio_obra, [
-                    "concurso_id" => $concurso_id,
+                    "concurso_numero_procedimiento" => $proc_num,
                     "nombre" => $name."_resultado_apertura",
                     "link" => $resultado_apertura,
                 ]);
@@ -337,7 +340,7 @@ function guardarEnlacesDetalleConcurso($url){
             $motivo_anulacion = 'https://www.sicop.go.cr/moduloBid/cartel/EP_CTJ_EXA011.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&cartelCate='.$cartel_cate;
             $informacion_bien_servicio_obra = array();
                 array_push($informacion_bien_servicio_obra, [
-                    "concurso_id" => $concurso_id,
+                    "concurso_numero_procedimiento" => $proc_num,
                     "nombre" => $name."_motivo_anulacion",
                     "link" => $motivo_anulacion,
                 ]);
@@ -347,7 +350,7 @@ function guardarEnlacesDetalleConcurso($url){
             $resultado_evaluacion = 'https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ607.jsp?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&cartelCate='.$cartel_cate.'&cartelProgressCd='.$cartel_progress_cd;
             $informacion_bien_servicio_obra = array();
                 array_push($informacion_bien_servicio_obra, [
-                    "concurso_id" => $concurso_id,
+                    "concurso_numero_procedimiento" => $proc_num,
                     "nombre" => $name."_resultado_evaluacion",
                     "link" => $resultado_evaluacion,
                 ]);
@@ -355,12 +358,32 @@ function guardarEnlacesDetalleConcurso($url){
         }
     });
 
+
+    //[ F. Documento del cartel ]
+    $cartel_version = $crawler->filter('input[name="cartelVersion"]')->attr('value');
+    $crawler->filterXPath('.//table[count(.//td[@rowspan]) > 0]/preceding-sibling::table[1] //tr[not(self::node()[not(preceding-sibling::*)])]')->each(function ($node) use (&$proc_num, &$numero_sicop_1, &$numero_sicop_2, &$partida, &$primera_vez, &$cartel_version) {
+        $doc_file_seqno = $node->filter('td:nth-child(1)')->text();
+
+        if ($node->filter('td:nth-child(4) > a')->count()) {
+            $name = $node->filter('td:nth-child(4) > a')->text();
+            $link = 'https://www.sicop.go.cr/moduloBid/servlet/cartel/EP_CTV_EXA008?cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2.'&cartelVersion='.$cartel_version.'&docFileSeqno='.$doc_file_seqno.'&loginYn=N&cmd=downloadFile';
+            $informacion_bien_servicio_obra = array();
+                array_push($informacion_bien_servicio_obra, [
+                    "concurso_numero_procedimiento" => $proc_num,
+                    "nombre" => "Documentos del cartel: ". $name,
+                    "link" => $link,
+                ]);
+                EnlacesDetalleConcurso::guardar('enlace_detalle_concursos', $informacion_bien_servicio_obra[0]);
+        }
+    });
+
+    
     //Ultimos botones
     if ($crawler->filter('p[align="right"] > span:nth-child(1) > a')->count()) {
         $resultado_solicitud_verificacion = 'https://www.sicop.go.cr/moduloBid/common/review/EpExamReqListQ.jsp?cartelNo='.$numero_sicop_1.'&cartelCate=&retVal=EXQ861&beforeBtnYn=Y';
         $informacion_bien_servicio_obra = array();
             array_push($informacion_bien_servicio_obra, [
-                "concurso_id" => $concurso_id,
+                "concurso_numero_procedimiento" => $proc_num,
                 "nombre" => $name."_resultado_solicitud_verificacion",
                 "link" => $resultado_solicitud_verificacion,
             ]);
@@ -370,7 +393,7 @@ function guardarEnlacesDetalleConcurso($url){
         $condiciones_declaraciones = 'https://www.sicop.go.cr/moduloOferta/oferta/EP_OTJ_PNQ031.jsp?isView=Y&cartelNo='.$numero_sicop_1.'&cartelSeq='.$numero_sicop_2;
         $informacion_bien_servicio_obra = array();
             array_push($informacion_bien_servicio_obra, [
-                "concurso_id" => $concurso_id,
+                "concurso_numero_procedimiento" => $proc_num,
                 "nombre" => $name."_condiciones_declaraciones",
                 "link" => $condiciones_declaraciones,
             ]);
@@ -380,7 +403,7 @@ function guardarEnlacesDetalleConcurso($url){
         $listado = 'https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ601.jsp?cateId=&proceType=&biddocRcvYn=Y&regDtTo=' . $hasta_publicacion . '&regDtFrom=' . $desde_publicacion . '&instNm=&prodUnitUserYn=&openbidDtTo=15%2F12%2F2022&prodNm=&openbidDtFrom=19%2F04%2F2022&instCartelNo=&cartelInstCd=&cartelTestYn=Y&cartelNo=&cartelNm=&prodCate=&prodUnit=';
         $informacion_bien_servicio_obra = array();
             array_push($informacion_bien_servicio_obra, [
-                "concurso_id" => $concurso_id,
+                "concurso_numero_procedimiento" => $proc_num,
                 "nombre" => $name."_listado",
                 "link" => $listado,
             ]);

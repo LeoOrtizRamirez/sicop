@@ -103,7 +103,7 @@ if (isset($_POST["export_data"])) {
         echo "<td>" . $row['concurso_estado'] . "</td>";
         echo "<td>" . $row['concurso_entidad_contratante'] . "</td>";
         echo '<td> <a class="btn btn-primary" target="_blank" href="detalle.php?concurso_enlace=' . $row['concurso_enlace'] . '">Resumen</a></td>';
-        echo '<td> <a class="btn btn-primary" target="_blank" href="descargaDoc.php?concurso_enlace=' . $row['concurso_enlace'] . '">Descargas</a></td>';
+        echo '<td> <a class="btn btn-primary" target="_blank" href="descargaDoc.php?concurso_numero_procedimiento=' . $row['concurso_numero_procedimiento'] . '">Descargas</a></td>';
         echo '<td> <a target="_blank" href="detalle_context.php?concurso_enlace=' . $row['concurso_enlace'] . '">' . $row['concurso_enlace'] . '</a> </td>';
         echo "</tr>";
         echo "<tbody";
