@@ -67,7 +67,8 @@ class EnlacesDetalleConcurso
 		$stmt = null;
 	}
 
-	static function limpiar($tabla){
+	static function limpiar($tabla)
+	{
 		$sql = "TRUNCATE TABLE " . $tabla;
 		$stmt = Conexion::conectar()->prepare($sql);
 		if ($stmt->execute()) {

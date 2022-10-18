@@ -1,11 +1,11 @@
 <?php
 if (isset($_POST['search'])) {
     $valueToSearh = $_POST['valueToSearh'];
-    $query =
-        $query = "SELECT * FROM concursos WHERE concurso_numero_procedimiento LIKE '%" . $valueToSearh . "%' OR concurso_estado LIKE '%" . $valueToSearh . "%' OR concurso_entidad_contratante LIKE '%" . $valueToSearh . "%'";
+    $query = "SELECT * FROM enlace_detalle_concursos WHERE 
+       cartel LIKE '%" . $valueToSearh . "%'";
     $result = filterRecord($query);
 } else {
-    $query = "SELECT * FROM concursos";
+    $query = "SELECT * FROM enlace_detalle_concursos";
     $result = filterRecord($query);
 }
 
@@ -16,32 +16,6 @@ function filterRecord($query)
     return $filter_result;
 }
 
-/*Inicio - Exportar a Excel */
-if (isset($_POST["export_data"])) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $concursos[] = $row;
-    }
-    if (!empty($concursos)) {
-        $filename = "concursos.xls";
-        header("Content-Type: application/vnd.ms-excel");
-        header("Content-Disposition: attachment; filename=" . $filename);
-        $mostrar_columnas = false;
-        foreach ($concursos as $concurso) {
-            if (!$mostrar_columnas) {
-                echo implode("\t", array_keys($concurso)) . "\n";
-                $mostrar_columnas = true;
-            }
-            echo implode("\t", array_values($concurso)) . "\n";
-        }
-    } else {
-        echo '<script language="javascript">';
-        echo 'alert("No hay datos para mostrar");';
-        echo 'window.location="index.php";';
-        echo '</script>';
-    }
-    exit;
-}
-/*Fin - Exportar a Excel */
 ?>
 <!DOCTYPE html>
 <html>
@@ -67,14 +41,14 @@ if (isset($_POST["export_data"])) {
                 </div>
                 <div class="busqueda col-2">
                     <form class="" action=" <?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
-                        <button type="submit" id="export_data" name='export_data' value="Export to excel" class="btn btn-info">Exportar a Excel</button>
-                        <br><br>
-                        <a class="btn btn-danger" href="borrarTodo.php">Borrar registros</a>
+                        <!-- <button type="submit" id="export_data" name='export_data' value="Export to excel" class="btn btn-info">Exportar a Excel</button> -->
                     </form>
                 </div>
                 <div>
                     <!-- <h4 style="margin-top: 75px;">Informacion completa</h4> -->
                     <div>
+                        <a style="margin-top: 73px;" class="btn btn-primary" target="_blank" href="index.php">Inicio</a>
+                        <!-- <br><br> -->
                         <a style="margin-top: 73px;" class="btn btn-secondary" target="_blank" href="detalleForm.php">Vista formulario</a>
                         <!-- <br><br> -->
                         <a style="margin-top: 73px;" class="btn btn-secondary" target="_blank" href="detalleTable.php">Vista tabla</a>
@@ -92,30 +66,21 @@ if (isset($_POST["export_data"])) {
     <?php
     echo "<table class='table table-striped '>
     <thead class='thead-dark'>
+    
     <tr>
     <th>#</th>
-    <th>Numero de procedimiento</th>
-    <th>Fecha Publicacion</th>
-    <th>Fecha Apertura</th>
-    <th>Estado</th>
-    <th>Entidad Contratante</th>
+    <th># Procedimiento</th>
+    <th>Boton</th>
     <th></th>
-    <th></th>
-    <th>Enlace a detalle completo</th>
     </tr>
     </thead>";
     while ($row = mysqli_fetch_array($result)) {
         echo "<tbody id='busquedaTable'>";
         echo "<tr>";
-        echo "<td>" . $row['concurso_id'] . "</td>";
+        echo "<td>" . $row['id'] . "</td>";
         echo "<td>" . $row['concurso_numero_procedimiento'] . "</td>";
-        echo "<td>" . $row['concurso_fecha_publicacion'] . "</td>";
-        echo "<td>" . $row['concurso_fecha_apertura'] . "</td>";
-        echo "<td>" . $row['concurso_estado'] . "</td>";
-        echo "<td>" . $row['concurso_entidad_contratante'] . "</td>";
-        echo '<td> <a class="btn btn-primary" target="_blank" href="detalle.php?concurso_enlace=' . $row['concurso_enlace'] . '">Resumen</a></td>';
-        echo '<td> <a class="btn btn-primary" target="_blank" href="descargaDoc.php?concurso_numero_procedimiento=' . $row['concurso_numero_procedimiento'] . '">Descargas</a></td>';
-        echo '<td> <a target="_blank" href="detalle_context.php?concurso_enlace=' . $row['concurso_enlace'] . '">' . $row['concurso_enlace'] . '</a> </td>';
+        echo "<td>" . $row['nombre'] . "</td>";
+        echo "<td> <a target='_blank' href='" . $row['link'] . "' > Revisar </a> </td>";
         echo "</tr>";
         echo "<tbody";
     }
