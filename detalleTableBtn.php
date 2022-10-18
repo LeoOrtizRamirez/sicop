@@ -81,16 +81,13 @@ function filterRecord($query)
         echo "<td>" . $row['id'] . "</td>";
         echo "<td>" . $row['concurso_numero_procedimiento'] . "</td>";
         echo "<td>" . $row['nombre'] . "</td>";
-
-
-
-        echo "<td> <a target='_blank' href='" . $row['link'] . "' > Revisar </a> </td>";
-
-        
-        echo '<td> <a target="_blank" href="detalle_btn.php?link=' . $row['link'] . '">' . $row['link'] . '</a> </td>';
-
-
-
+        if ($row['nombre'] == 'consulta_notificaciones'  || $row['nombre'] == '_resultado_solicitud_verificacion') {
+            echo '<td> <a target="_blank" href="detalle_btn.php?link=' . $row['link'] . '">' . $row['link'] . '</a> </td>';
+        } else if ($row['nombre'] == '_listado') {
+            echo "<td> <a target='_blank' href='index.php' > Inicio </a> </td>";
+        } else {
+            echo "<td> <a target='_blank' href='" . $row['link'] . "' > Revisar </a> </td>";
+        }
         echo "</tr>";
         echo "<tbody";
     }
