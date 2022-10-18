@@ -14,7 +14,6 @@ if (mysqli_query($mysqli, $sql)) {
     echo '</script>';
 }
 
-
 $sql = "TRUNCATE TABLE `detalle_concursos` ";
 if (mysqli_query($mysqli, $sql)) {
     echo '<script language="javascript">';
@@ -27,7 +26,6 @@ if (mysqli_query($mysqli, $sql)) {
     echo 'window.location="index.php";';
     echo '</script>';
 }
-
 
 $sql = "TRUNCATE TABLE `enlace_detalle_concursos` ";
 if (mysqli_query($mysqli, $sql)) {

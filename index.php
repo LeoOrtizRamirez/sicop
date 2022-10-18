@@ -34,7 +34,10 @@ if (isset($_POST["export_data"])) {
             echo implode("\t", array_values($concurso)) . "\n";
         }
     } else {
-        echo 'No hay datos a exportar';
+        echo '<script language="javascript">';
+        echo 'alert("No hay datos a exportar");';
+        echo 'window.location="index.php";';
+        echo '</script>';
     }
     exit;
 }

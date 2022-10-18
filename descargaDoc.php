@@ -17,10 +17,6 @@ $client = new Client(HttpClient::create(array(
 
 $crawler = $client->request('GET', $concurso_enlace);
 
-// body > div > div > div.cl_context > table:nth-child(45)  tr
-// body > div > div > div.cl_context > table:nth-child(45)  tr td
-// body > div > div > div.cl_context > table:nth-child(45)  tr td a
-
 $crawler->filter('div.cl_context > table:nth-child(45) tr:not(:first-child)')->each(function ($node) {
 	// Filtrar datos
 	$info_eptdc = '';
@@ -29,8 +25,6 @@ $crawler->filter('div.cl_context > table:nth-child(45) tr:not(:first-child)')->e
 	} else {
 		$info_eptdc = 'Campo vacio';
 	}
-	// echo $info_eptdc;
-	// echo '</br>';
 
 	$info_eptdl = '';
 	if ($info_eptdl = $node->filter('td.eptdl')->count()) {
@@ -38,17 +32,8 @@ $crawler->filter('div.cl_context > table:nth-child(45) tr:not(:first-child)')->e
 	} else {
 		$info_eptdl = 'Campo vacio';
 	}
-	// echo $info_eptdl;
-	// echo '</br>';
 
 	$info_eptdl_a = 'https://www.sicop.go.cr/moduloBid/servlet/cartel/EP_CTV_EXA008';
-	// if ($info_eptdl_a = $node->filter('td a')->count()) {
-	// 	$info_eptdl_a = $node->filter('td a')->attr('href');
-	// } else {
-	// 	$info_eptdl_a = 'Campo vacio';
-	// }
-	// echo $info_eptdl_a;
-	// echo '</br>';
 
 	$info_eptdl_a_txt = '';
 	if ($info_eptdl_a_txt = $node->filter('td a')->count()) {
@@ -56,8 +41,6 @@ $crawler->filter('div.cl_context > table:nth-child(45) tr:not(:first-child)')->e
 	} else {
 		$info_eptdl_a_txt = 'Campo vacio';
 	}
-	// echo $info_eptdl_a_txt;
-	// echo '</br>';
 
 ?>
 	<!DOCTYPE html>
