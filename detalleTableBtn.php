@@ -72,6 +72,7 @@ function filterRecord($query)
     <th># Procedimiento</th>
     <th>Boton</th>
     <th></th>
+    <th></th>
     </tr>
     </thead>";
     while ($row = mysqli_fetch_array($result)) {
@@ -80,7 +81,16 @@ function filterRecord($query)
         echo "<td>" . $row['id'] . "</td>";
         echo "<td>" . $row['concurso_numero_procedimiento'] . "</td>";
         echo "<td>" . $row['nombre'] . "</td>";
+
+
+
         echo "<td> <a target='_blank' href='" . $row['link'] . "' > Revisar </a> </td>";
+
+        
+        echo '<td> <a target="_blank" href="detalle_btn.php?link=' . $row['link'] . '">' . $row['link'] . '</a> </td>';
+
+
+
         echo "</tr>";
         echo "<tbody";
     }
