@@ -1,13 +1,14 @@
 <?php
-  header('Content-Type: text/html; charset=utf-8');
-	$concurso_numero_procedimiento = $_GET['concurso_numero_procedimiento'];
-	$query = "SELECT * FROM enlace_detalle_concursos WHERE concurso_numero_procedimiento = '".$concurso_numero_procedimiento."' AND nombre LIKE '%Documentos del cartel: %'";
-	$result = filterRecord($query);
-	function filterRecord($query){
-		include "conect.php";
-		$filter_result = mysqli_query($mysqli, $query);
-		return $filter_result;
-	}
+header('Content-Type: text/html; charset=utf-8');
+$concurso_numero_procedimiento = $_GET['concurso_numero_procedimiento'];
+$query = "SELECT * FROM enlace_detalle_concursos WHERE concurso_numero_procedimiento = '" . $concurso_numero_procedimiento . "' AND nombre LIKE '%Documentos del cartel: %'";
+$result = filterRecord($query);
+function filterRecord($query)
+{
+    include "conect.php";
+    $filter_result = mysqli_query($mysqli, $query);
+    return $filter_result;
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -20,14 +21,14 @@
 
 <body class="body">
     <header id="header">
-		<header id="header">
-			<div class="row">
-				<div class="col-2 sidebar">
-					<h4 class="volver">Descarga de documentos</h4>
-					</ul>
-				</div>
-			</div>
-		</header>
+        <header id="header">
+            <div class="row">
+                <div class="col-2 sidebar">
+                    <h4 class="volver">Descarga de documentos</h4>
+                    </ul>
+                </div>
+            </div>
+        </header>
     </header>
     <?php
     echo "<table class='table table-striped '>
@@ -40,12 +41,12 @@
 	<th>Archivo adjunto</th>
     </tr>
     </thead>";
-	$iterator = 0;
+    $iterator = 0;
     while ($row = mysqli_fetch_array($result)) {
-		$iterator += 1;
+        $iterator += 1;
         echo "<tbody>";
         echo "<tr>";
-		echo "<td>" .$iterator. "</td>";
+        echo "<td>" . $iterator . "</td>";
         echo "<td>Documentos del cartel	</td>";
         echo "<td>" . $row['nombre'] . "</td>";
         echo "<td><a href='" . $row['link'] . "'>Descargar</a></td>";
