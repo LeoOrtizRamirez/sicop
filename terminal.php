@@ -1,6 +1,5 @@
 <?php
 include 'vendor/autoload.php';
-// include "conect.php";
 require_once('concurso.php');
 require_once('DetalleConcurso.php');
 require_once('C:\xampp\htdocs\Proyecto\sicop\EnlacesDetalleConcurso.php');
@@ -44,7 +43,6 @@ for ($i = 2; $i <= $pages; $i++) {
 function guardarDetalleConcurso($url)
 {
     //echo $url;
-
     $funcionarios_relacionados_concurso = textValidation($url, 'table:nth-child(6) > tr:nth-child(2) > td:nth-child(2) > span > a');
     $estado_concurso = textValidation($url, 'table:nth-child(6) > tr:nth-child(2) > td:nth-child(4) > font');
     $fecha_hora_publicacion = textValidation($url, 'table:nth-child(6) > tr:nth-child(3) > td:nth-child(2)');
@@ -121,18 +119,13 @@ function guardarEnlacesDetalleConcurso($url)
     $numero_sicop_1 = textValidation($url, 'table:nth-child(6) > tr:nth-child(4) > td:nth-child(4) > input.epreadc.readonly.fixCartelNo', 'value');
     $numero_sicop_2 = textValidation($url, 'table:nth-child(6) > tr:nth-child(4) > td:nth-child(4) > input.epreadc.readonly.fixCartelSeq', 'value');
     $numero_procedimiento = textValidation($url, 'table:nth-child(6) > tr:nth-child(4) > td:nth-child(2)');
-
     //$proc_num = $numero_sicop_1;
-
     $proc_num = textValidation($url, 'td.eptdl b');
     $historial_modificaciones_cartel = 'https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ604.jsp?cartelNo=' . $numero_sicop_1 . '&cartelSeq=' . $numero_sicop_2;
     $consulta_notificaciones = 'https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ724.jsp?cartelNo=' . $numero_sicop_1 . '&cartelSeq=' . $numero_sicop_2 . '&instCartelNo=' . $numero_procedimiento;
     $historial_modificaciones_presupuesto = 'https://www.sicop.go.cr/moduloBid/etc/EP_ETJ_EXQ876.jsp?cartelNo=' . $numero_sicop_1 . '&cartelSeq=' . $numero_sicop_2;
-
     $funcionarios_relacionados_concurso = 'https://www.sicop.go.cr/moduloBid/common/co/EpUserAuthList.jsp?cartelNo=' . $numero_sicop_1 . '&cartelSeq=' . $numero_sicop_2 . '&cartelCate=';
-
     $aplicacion_sistema = 'https://www.sicop.go.cr/moduloOferta/search/EP_SEJ_COQ625.jsp?isView=Y&progId=coq603&cartelNo=' . $numero_sicop_1 . '&cartelSeq=' . $numero_sicop_2 . '&isPopup=';
-
     $solicitud_aclaracion = 'https://www.sicop.go.cr/moduloBid/cartel/EP_CTJ_POI018.jsp?cartelNo=' . $numero_sicop_1 . '&cartelSeq=' . $numero_sicop_2 . '&biddocTypeCd=XM'; //Requiere login
     $consulta_aclaracion = 'https://www.sicop.go.cr/moduloBid/cartel/EP_CTJ_COQ015.jsp?cartelNo=' . $numero_sicop_1 . '&cartelSeq=' . $numero_sicop_2 . '&isPopup=';
     $first_data = array();
@@ -143,7 +136,6 @@ function guardarEnlacesDetalleConcurso($url)
     ]);
     EnlacesDetalleConcurso::guardar('enlace_detalle_concursos', $first_data[0]);
     $first_data = array();
-
     array_push($first_data, [
         "concurso_numero_procedimiento" => $proc_num,
         "nombre" => "consulta_notificaciones",
@@ -186,7 +178,6 @@ function guardarEnlacesDetalleConcurso($url)
     ]);
     EnlacesDetalleConcurso::guardar('enlace_detalle_concursos', $first_data[0]);
     $first_data = array();
-
     //[ 11. Información de bien, servicio u obra ]
     $client = new Client();
     $client = new Client(HttpClient::create(array(
@@ -285,8 +276,6 @@ function guardarEnlacesDetalleConcurso($url)
         }
     });
 
-
-
     //[ 12. Procesos por partida ]
     $cartel_version = $crawler->filter('input[name="cartelVersion"]')->attr('value');
     $crawler->filterXPath('.//table[count(.//td[@rowspan]) > 0]/following-sibling::table[1] //tr[not(self::node()[not(preceding-sibling::*)])]')->each(function ($node) use (&$proc_num, &$numero_sicop_1, &$numero_sicop_2, &$partida, &$primera_vez, &$cartel_version) {
@@ -357,7 +346,6 @@ function guardarEnlacesDetalleConcurso($url)
         }
     });
 
-
     //[ F. Documento del cartel ]
     $cartel_version = $crawler->filter('input[name="cartelVersion"]')->attr('value');
     $crawler->filterXPath('.//table[count(.//td[@rowspan]) > 0]/preceding-sibling::table[1] //tr[not(self::node()[not(preceding-sibling::*)])]')->each(function ($node) use (&$proc_num, &$numero_sicop_1, &$numero_sicop_2, &$partida, &$primera_vez, &$cartel_version) {
@@ -375,7 +363,6 @@ function guardarEnlacesDetalleConcurso($url)
             EnlacesDetalleConcurso::guardar('enlace_detalle_concursos', $informacion_bien_servicio_obra[0]);
         }
     });
-
 
     //Ultimos botones
     if ($crawler->filter('p[align="right"] > span:nth-child(1) > a')->count()) {
@@ -469,8 +456,6 @@ function saveData($url)
     //print_r(Concurso::obtener('concursos'));
     sleep(1);
 }
-
-
 
 function fromStringToDate($string_date)
 {

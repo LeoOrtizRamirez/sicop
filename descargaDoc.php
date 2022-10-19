@@ -33,7 +33,6 @@ function filterRecord($query)
     <?php
     echo "<table class='table table-striped '>
     <thead class='thead-dark'>
-    
     <tr>
     <th>No</th>
     <th>Tipo de documento</th>

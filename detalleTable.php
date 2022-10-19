@@ -57,8 +57,6 @@ if (isset($_POST["export_data"])) {
                 <div class="col-2">
                     <img src="src/lici.png" alt="" style="margin-top: 55px;">
                     <img src="src/scra.png" alt="">
-                    <!-- <img src="src/scraping.png" alt=""> -->
-                    <!-- <h4 class="volver">Scraping www.sicop.go.cr</h4> -->
                 </div>
                 <div>
                     <input class="busqueda" id="busquedaInput" type="text" placeholder="Filtre aqui por palabra clave" />
@@ -69,16 +67,11 @@ if (isset($_POST["export_data"])) {
                     </form>
                 </div>
                 <div>
-                    <!-- <h4 style="margin-top: 75px;">Informacion completa</h4> -->
                     <div>
                         <a style="margin-top: 73px;" class="btn btn-primary" target="_blank" href="index.php">Inicio</a>
-                        <!-- <br><br> -->
-                        <a style="margin-top: 73px;" class="btn btn-secondary" target="_blank" href="detalleForm.php">Vista formulario</a>
-                        <!-- <br><br> -->
-                        <a style="margin-top: 73px;" class="btn btn-secondary" target="_blank" href="detalleTable.php">Vista tabla</a>
-                        <!-- <br><br> -->
+                        <a style="margin-top: 73px;" class="btn btn-secondary" target="_blank" href="detalleForm.php">Vista formulari</a>
+                        <a style="margin-top: 73px;" class="btn btn-secondary" target="_blank" href="detalleTable.php">Vista tabla</a
                         <a style="margin-top: 73px;" class="btn btn-secondary" target="_blank" href="detalleTableBtn.php">Vista botones</a>
-                        <!-- <br><br> -->
                     </div>
                 </div>
                 <div>
@@ -93,7 +86,7 @@ if (isset($_POST["export_data"])) {
     
     <tr>
     <th>#</th>
-    
+
     <th>Estado</th>
     <th>Fecha Hora Publicacion</th>
     <th>Cartel</th>

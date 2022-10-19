@@ -150,5 +150,4 @@ echo '<table class="table table-striped ">
 	<th width="18%" class="">Presupuesto total estimado USD (Opcional)</th>
 	<td width="32%" class="">' . $presupuesto_total_estimado_usd . '</td>
 </tr></table>';
-
 echo '</div>';
