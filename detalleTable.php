@@ -17,6 +17,7 @@ function filterRecord($query)
 }
 
 /*Inicio - Exportar a Excel */
+
 if (isset($_POST["export_data"])) {
     while ($row = mysqli_fetch_assoc($result)) {
         $concursos[] = $row;
@@ -64,7 +65,7 @@ if (isset($_POST["export_data"])) {
                 </div>
                 <div class="busqueda col-2">
                     <form class="" action=" <?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
-                        <!-- <button type="submit" id="export_data" name='export_data' value="Export to excel" class="btn btn-info">Exportar a Excel</button> -->
+                        <button type="submit" id="export_data" name='export_data' value="Export to excel" class="btn btn-info">Exportar a Excel</button>
                     </form>
                 </div>
                 <div>
