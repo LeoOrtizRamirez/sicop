@@ -2,7 +2,7 @@
 include 'vendor/autoload.php';
 require_once('concurso.php');
 require_once('DetalleConcurso.php');
-require_once('C:\xampp\htdocs\Proyecto\sicop\EnlacesDetalleConcurso.php');
+require_once('EnlacesDetalleConcurso.php');
 
 use Goutte\Client;
 use Symfony\Component\HttpClient\HttpClient;
